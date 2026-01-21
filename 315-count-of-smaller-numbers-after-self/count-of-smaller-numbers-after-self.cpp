@@ -1,27 +1,22 @@
 class Solution {
 public:
     vector<int> ans;
-
-    void merge(vector<pair<int, int>>& arr, int l, int mid, int r) {
-        int i = l, j = mid + 1;
+    void merge(vector<pair<int, int>>& arr, int l, int m, int r) {
+        int i = l, j = m + 1;
         vector<pair<int, int>> temp;
-        int rightCount = 0;
-        while (i <= mid && j <= r) {
-            if (arr[j].first < arr[i].first) {
-                // right element is smaller
-                temp.push_back(arr[j]);
-                rightCount++;
-                j++;
+        int rightSmallerCount = 0;
+        while (i <= m && j <= r) {
+            if (arr[i].first <= arr[j].first) {
+                ans[arr[i].second] += rightSmallerCount;
+                temp.push_back(arr[i++]);
             } else {
-                // left element is placed
-                ans[arr[i].second] += rightCount;
-                temp.push_back(arr[i]);
-                i++;
+                temp.push_back(arr[j++]);
+                rightSmallerCount++;
             }
         }
 
-        while (i <= mid) {
-            ans[arr[i].second] += rightCount;
+        while (i <= m) {
+            ans[arr[i].second] += rightSmallerCount;
             temp.push_back(arr[i++]);
         }
 
@@ -33,27 +28,22 @@ public:
             arr[l + k] = temp[k];
         }
     }
-
-    void mergeSort(vector<pair<int, int>>& arr, int l, int r) {
-        if (l >= r)
-            return;
-
-        int mid = l + (r - l) / 2;
-        mergeSort(arr, l, mid);
-        mergeSort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
-    }
-
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
         ans.assign(n, 0);
-
-        vector<pair<int, int>> arr;
+        vector<pair<int, int>> pairArr;
         for (int i = 0; i < n; i++) {
-            arr.push_back({nums[i], i});
+            pairArr.push_back({nums[i], i});
         }
-
-        mergeSort(arr, 0, n - 1);
+        for (int s = 1; s <= n; s *= 2) {
+            for (int l = 0; l < n; l += 2 * s) {
+                int r = min(n - 1, l + 2 * s - 1);
+                int m = min(n - 1, l + s - 1);
+                if (m < r) {
+                    merge(pairArr, l, m, r);
+                }
+            }
+        }
         return ans;
     }
 };
