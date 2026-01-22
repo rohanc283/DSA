@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int maxIceCream(vector<int>& costs, int coins) {
+    int sol1(vector<int>& costs, int coins) {
         map<int, int> mp;
         for (auto& cost : costs)
             mp[cost]++;
@@ -15,5 +15,19 @@ public:
             }
         }
         return ans;
+    }
+    int sol2(vector<int>& costs, int coins) {
+        sort(costs.begin(), costs.end());
+        int ans = 0;
+        for (auto& cost : costs) {
+            if (coins < cost)
+                break;
+            coins -= cost;
+            ans++;
+        }
+        return ans;
+    }
+    int maxIceCream(vector<int>& costs, int coins) {
+        return sol2(costs, coins);
     }
 };
