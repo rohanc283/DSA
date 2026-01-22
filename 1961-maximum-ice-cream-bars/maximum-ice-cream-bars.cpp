@@ -27,7 +27,23 @@ public:
         }
         return ans;
     }
+    int sol3(vector<int>& costs, int coins) {
+        vector<int> mp(100001, 0);
+        for (auto& cost : costs)
+            mp[cost]++;
+
+        int ans = 0;
+        for (int i = 0; i < mp.size(); i++) {
+            while (mp[i]--) {
+                if (coins < i)
+                    break;
+                ans++;
+                coins -= i;
+            }
+        }
+        return ans;
+    }
     int maxIceCream(vector<int>& costs, int coins) {
-        return sol2(costs, coins);
+        return sol3(costs, coins);
     }
 };
