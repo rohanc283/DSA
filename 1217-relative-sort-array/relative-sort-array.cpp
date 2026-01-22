@@ -14,12 +14,9 @@ public:
                     mp.erase(arr2[j]);
             }
         }
-        for (auto j : mp) {
-            while (j.second > 0) {
+        for (auto& j : mp) {
+            while (j.second--) {
                 arr1[i++] = j.first;
-                j.second--;
-                if (mp[j.first] == 0)
-                    mp.erase(j.first);
             }
         }
         return arr1;
