@@ -14,11 +14,8 @@ class Solution {
     }
 
     public int[] sortJumbled(int[] mapping, int[] nums) {
-        Integer[] numList = Arrays.stream(nums).boxed().toArray(Integer[]::new);
-        Arrays.sort(numList, (a, b) -> getMappedValue(a, mapping) - getMappedValue(b, mapping));
-        for (int i = 0; i < nums.length; i++)
-            nums[i] = numList[i];
-
-        return nums;
+        return Arrays.stream(nums).boxed()
+                .sorted((a, b) -> getMappedValue(a, mapping) - getMappedValue(b, mapping))
+                .mapToInt(Integer::intValue).toArray();
     }
 }
