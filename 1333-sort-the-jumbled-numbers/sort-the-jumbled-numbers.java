@@ -1,21 +1,22 @@
 class Solution {
-    public int[] sortJumbled(int[] mapping, int[] nums) {
-        HashMap<Integer, Integer> numMapping = new HashMap<>();
-        int n = nums.length;
-
-        for (int i = 0; i < n; i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(nums[i]);
-            for (int j = 0; j < sb.length(); j++) {
-                sb.setCharAt(j, (char) ('0' + mapping[sb.charAt(j) - '0']));
-            }
-            numMapping.put(nums[i], Integer.parseInt(sb.toString()));
+    private int getMappedValue(int num, int[] mapping) {
+        if (num == 0)
+            return mapping[num];
+        int mapped = 0;
+        int p = 1;
+        while (num > 0) {
+            int digit = num % 10;
+            mapped = mapping[digit] * p + mapped;
+            num /= 10;
+            p *= 10;
         }
+        return mapped;
+    }
 
+    public int[] sortJumbled(int[] mapping, int[] nums) {
         Integer[] numList = Arrays.stream(nums).boxed().toArray(Integer[]::new);
-        Arrays.sort(numList, (a, b) -> numMapping.get(a) - numMapping.get(b));
-
-        for (int i = 0; i < n; i++)
+        Arrays.sort(numList, (a, b) -> getMappedValue(a, mapping) - getMappedValue(b, mapping));
+        for (int i = 0; i < nums.length; i++)
             nums[i] = numList[i];
 
         return nums;
