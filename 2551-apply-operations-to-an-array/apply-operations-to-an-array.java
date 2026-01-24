@@ -14,15 +14,14 @@ class Solution {
             }
         }
 
-        int[] ans = new int[n];
         int k = 0;
         for (int i = 0; i < n; i++) {
             if (nums[i] != 0)
-                ans[k++] = nums[i];
+                nums[k++] = nums[i];
         }
         while (k < n) {
-            ans[k++] = 0;
+            nums[k++] = 0;
         }
-        return ans;
+        return nums;
     }
 }
