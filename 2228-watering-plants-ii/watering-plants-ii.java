@@ -9,6 +9,7 @@ class Solution {
                 if (plants[i] > cap) {
                     ans++;
                 }
+                break;
             } else {
                 if (plants[i] <= aCap) {
                     aCap -= plants[i];
