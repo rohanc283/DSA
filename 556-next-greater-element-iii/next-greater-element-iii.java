@@ -1,56 +1,38 @@
 class Solution {
-    private void swap(List<Integer> nums, int i, int j) {
-        int t = nums.get(i);
-        nums.set(i, nums.get(j));
-        nums.set(j, t);
+    private void swap(char[] a, int i, int j) {
+        char t = a[i];
+        a[i] = a[j];
+        a[j] = t;
     }
 
-    public void reverse(List<Integer> nums, int s, int e) {
-        while (s < e) {
-            swap(nums, s++, e--);
-        }
-    }
-
-    private int buildAns(List<Integer> nums) {
-        int ans = 0;
-        for (int i = 0; i < nums.size(); i++) {
-            System.out.println(nums.get(i));
-            if ((long) ans * 10 + nums.get(i) > Integer.MAX_VALUE) {
-                return -1;
-            }
-            ans = ans * 10 + nums.get(i);
-        }
-        return ans;
+    private void reverse(char[] a, int l, int r) {
+        while (l < r)
+            swap(a, l++, r--);
     }
 
     public int nextGreaterElement(int n) {
-        List<Integer> nums = new ArrayList<>();
-        while (n > 0) {
-            nums.add(n % 10);
-            n /= 10;
-        }
-        Collections.reverse(nums);
+        char[] digits = Integer.toString(n).toCharArray();
+        int len = digits.length;
 
-        int breakPoint = -1, s = nums.size();
-        for (int i = s - 2; i >= 0; i--) {
-            if (nums.get(i) < nums.get(i + 1)) {
-                breakPoint = i;
-                break;
-            }
-        }
-
-        if (breakPoint == -1) {
+        int i = len - 2;
+        while (i >= 0 && digits[i] >= digits[i + 1])
+            i--;
+        if (i < 0)
             return -1;
-        }
 
-        for (int i = s - 1; i >= 0; i--) {
-            if (nums.get(i) > nums.get(breakPoint)) {
-                swap(nums, i, breakPoint);
-                break;
-            }
-        }
+        int j = len - 1;
+        while (digits[j] <= digits[i])
+            j--;
+        swap(digits, i, j);
 
-        reverse(nums, breakPoint + 1, s - 1);
-        return buildAns(nums);
+        reverse(digits, i + 1, len - 1);
+
+        long ans = 0;
+        for (char c : digits) {
+            ans = ans * 10 + (c - '0');
+            if (ans > Integer.MAX_VALUE)
+                return -1;
+        }
+        return (int) ans;
     }
 }
