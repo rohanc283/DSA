@@ -4,32 +4,30 @@ class Solution {
             return votes[0];
 
         int voteLength = votes[0].length();
-        int[][] rank = new int[27][voteLength];
+        int[][] rank = new int[26][voteLength];
 
-        for (int i = 0; i < voteLength; i++) {
-            for (int j = 0; j < votes.length; j++) {
-                int idx = votes[j].charAt(i) - 'A';
-                rank[idx][i]++;
+        for (String vote : votes) {
+            for (int i = 0; i < voteLength; i++) {
+                rank[vote.charAt(i) - 'A'][i]++;
             }
         }
 
-        Character[] chars = votes[0].chars().mapToObj(c -> (char) c).toArray(Character[]::new);
-        Arrays.sort(chars, (a, b) -> {
-            int i = 0;
-            while (i < voteLength && rank[a - 'A'][i] == rank[b - 'A'][i])
-                i++;
-            if (i >= voteLength)
-                return a - b;
-            if (rank[a - 'A'][i] > rank[b - 'A'][i])
-                return -1;
-            else
-                return 1;
+        Character[] teams = votes[0].chars()
+                .mapToObj(c -> (char) c)
+                .toArray(Character[]::new);
+
+        Arrays.sort(teams, (a, b) -> {
+            for (int i = 0; i < voteLength; i++) {
+                if (rank[a - 'A'][i] != rank[b - 'A'][i]) {
+                    return rank[b - 'A'][i] - rank[a - 'A'][i];
+                }
+            }
+            return a - b;
         });
 
         StringBuilder sb = new StringBuilder();
-        for (Character c : chars) {
+        for (char c : teams)
             sb.append(c);
-        }
         return sb.toString();
     }
 }
