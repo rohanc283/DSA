@@ -11,8 +11,7 @@ class Solution {
                 ans[k++] = r--;
             }
         }
-        while (l <= r)
-            ans[k++] = l++;
+        ans[k++] = l++;
         return ans;
     }
 }
