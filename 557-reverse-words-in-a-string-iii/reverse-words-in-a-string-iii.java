@@ -1,12 +1,4 @@
 class Solution {
-    public void reverse(StringBuilder sb, int s, int e) {
-        while (s < e) {
-            char c = sb.charAt(s);
-            sb.setCharAt(s++, sb.charAt(e));
-            sb.setCharAt(e--, c);
-        }
-    }
-
     public String reverseWords(String str) {
         StringBuilder sb = new StringBuilder(str);
         int s = 0, n = sb.length();
@@ -16,7 +8,12 @@ class Solution {
                 continue;
             }
             if (i == n - 1 || sb.charAt(i + 1) == ' ') {
-                reverse(sb, s, i);
+                int x = s, y = i;
+                while (x < y) {
+                    char c = sb.charAt(x);
+                    sb.setCharAt(x++, sb.charAt(y));
+                    sb.setCharAt(y--, c);
+                }
                 s = i + 1;
             }
         }
