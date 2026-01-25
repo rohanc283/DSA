@@ -1,31 +1,32 @@
 class Solution {
     public List<Integer> goodDaysToRobBank(int[] security, int time) {
         int n = security.length;
-        int[] leftDecreasing = new int[n];
-        int[] rightIncreasing = new int[n];
-        int count = 0;
+        List<Integer> ans = new ArrayList<>();
+
+        int[] nonIncreasingLeft = new int[n];
+        int[] nonDecreasingRight = new int[n];
+
+        // Count non-increasing days to the left
         for (int i = 1; i < n; i++) {
             if (security[i - 1] >= security[i]) {
-                count++;
-            } else {
-                count = 0;
+                nonIncreasingLeft[i] = nonIncreasingLeft[i - 1] + 1;
             }
-            leftDecreasing[i] = count;
         }
-        count = 0;
+
+        // Count non-decreasing days to the right
         for (int i = n - 2; i >= 0; i--) {
             if (security[i] <= security[i + 1]) {
-                count++;
-            } else {
-                count = 0;
+                nonDecreasingRight[i] = nonDecreasingRight[i + 1] + 1;
             }
-            rightIncreasing[i] = count;
         }
-        List<Integer> ans = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            if (leftDecreasing[i] >= time && rightIncreasing[i] >= time)
+
+        // Check valid days
+        for (int i = time; i < n - time; i++) {
+            if (nonIncreasingLeft[i] >= time && nonDecreasingRight[i] >= time) {
                 ans.add(i);
+            }
         }
+
         return ans;
     }
 }
