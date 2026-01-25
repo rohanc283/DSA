@@ -1,25 +1,38 @@
 class Solution {
-
     public boolean canChange(String start, String target) {
-        int i = 0, j = 0, n = start.length();
+        int n = start.length();
+        int i = 0, j = 0;
+
         while (i < n || j < n) {
+
             while (i < n && start.charAt(i) == '_')
                 i++;
+
             while (j < n && target.charAt(j) == '_')
                 j++;
+
             if (i == n && j == n)
-                break;
-            if ((i < n && j >= n) || (j < n && i >= n))
+                return true;
+
+            if (i == n || j == n)
                 return false;
-            if (start.charAt(i) != target.charAt(j))
+
+            char c1 = start.charAt(i);
+            char c2 = target.charAt(j);
+
+            if (c1 != c2)
                 return false;
-            if (start.charAt(i) == 'L' && i < j)
+
+            if (c1 == 'L' && i < j)
                 return false;
-            if (start.charAt(i) == 'R' && i > j)
+
+            if (c1 == 'R' && i > j)
                 return false;
+
             i++;
             j++;
         }
+
         return true;
     }
 }
