@@ -1,5 +1,5 @@
 class Solution {
-    public int maxFrequency(int[] nums, int k, int numOperations) {
+    public int prefixSumTech(int[] nums, int k, int numOperations) {
         int maxEl = Integer.MIN_VALUE;
         int n = nums.length;
         for (int i = 0; i < n; i++) {
@@ -25,5 +25,9 @@ class Solution {
             res = Math.max(res, maxPosFreq);
         }
         return res;
+    }
+
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        return prefixSumTech(nums, k, numOperations);
     }
 }
