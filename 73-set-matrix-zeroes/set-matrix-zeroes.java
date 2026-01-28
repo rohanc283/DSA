@@ -25,21 +25,24 @@ class Solution {
     public void sol2(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
         boolean firstRowZero = false, firstColZero = false;
-        // First row impact check
+
+        // Check first row
         for (int c = 0; c < n; c++) {
             if (matrix[0][c] == 0) {
                 firstRowZero = true;
+                break;
             }
         }
 
-        // First col impact check
+        // Check first column
         for (int r = 0; r < m; r++) {
             if (matrix[r][0] == 0) {
                 firstColZero = true;
+                break;
             }
         }
 
-        // If any ele is 0 then mark that row[0] and col[0] as 0
+        // Mark rows & cols
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 if (matrix[i][j] == 0) {
@@ -49,7 +52,7 @@ class Solution {
             }
         }
 
-        // Populate 0 with help of row[0] and col[0]
+        // Zero based on markers
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 if (matrix[i][0] == 0 || matrix[0][j] == 0) {
@@ -58,17 +61,16 @@ class Solution {
             }
         }
 
-        // Populate First row back
-        for (int c = 0; c < n; c++) {
-            if (firstRowZero)
+        // Restore first row
+        if (firstRowZero) {
+            for (int c = 0; c < n; c++)
                 matrix[0][c] = 0;
         }
 
-        // Populate First col back
-        for (int r = 0; r < m; r++) {
-            if (firstColZero) {
+        // Restore first column
+        if (firstColZero) {
+            for (int r = 0; r < m; r++)
                 matrix[r][0] = 0;
-            }
         }
     }
 
