@@ -58,6 +58,6 @@ class Solution {
     }
 
     public long minCost(int[] nums, int[] cost) {
-        return prefix(nums, cost);
+        return ternarySearch(nums, cost);
     }
 }
