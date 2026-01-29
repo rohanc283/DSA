@@ -1,7 +1,7 @@
 class Solution {
     public int[][] sortMatrix(int[][] grid) {
         int n = grid.length;
-        Map<Integer, List<Integer>> diagMap = new TreeMap<>();
+        Map<Integer, List<Integer>> diagMap = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
