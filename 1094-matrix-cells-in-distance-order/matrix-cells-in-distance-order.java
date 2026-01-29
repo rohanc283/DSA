@@ -1,6 +1,5 @@
 class Solution {
-    public int[][] allCellsDistOrder(int rows, int cols, int rCenter, int cCenter) {
-
+    public int[][] withSorting(int rows, int cols, int rCenter, int cCenter) {
         int[][] res = new int[rows * cols][2];
         Map<Integer, List<int[]>> distMap = new TreeMap<>();
 
@@ -21,5 +20,9 @@ class Solution {
         }
 
         return res;
+    }
+
+    public int[][] allCellsDistOrder(int rows, int cols, int rCenter, int cCenter) {
+        return withSorting(rows, cols, rCenter, cCenter);
     }
 }
