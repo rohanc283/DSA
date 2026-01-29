@@ -68,7 +68,7 @@ class Solution {
 
     public int[][] sol3(int[][] mat) {
         int m = mat.length, n = mat[0].length;
-        Map<Integer, PriorityQueue<Integer>> diagMap = new TreeMap<>();
+        Map<Integer, PriorityQueue<Integer>> diagMap = new HashMap<>();
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -76,7 +76,7 @@ class Solution {
                         .offer(mat[i][j]);
             }
         }
-        
+
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 mat[i][j] = diagMap.get(i - j).poll();
