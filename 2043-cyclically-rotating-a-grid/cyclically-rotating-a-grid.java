@@ -70,21 +70,7 @@ class Solution {
         }
 
         for (List<Integer> cyclicList : cyclicLists) {
-            for (Integer ele : cyclicList) {
-                System.out.print(ele + " ");
-            }
-            System.out.println();
-        }
-
-        for (List<Integer> cyclicList : cyclicLists) {
             rotateCycleByK(cyclicList, k);
-        }
-
-        for (List<Integer> cyclicList : cyclicLists) {
-            for (Integer ele : cyclicList) {
-                System.out.print(ele + " ");
-            }
-            System.out.println();
         }
 
         sr = 0;
