@@ -19,22 +19,17 @@ class Solution {
     }
 
     public int minimumOperationsToWriteY(int[][] grid) {
-        int zeroOneCost = findCost(grid, 0, 1);
-        int zeroTwoCost = findCost(grid, 0, 2);
+        int ans = Integer.MAX_VALUE;
+        int[] values = { 0, 1, 2 };
 
-        int yZeroCost = Math.min(zeroOneCost, zeroTwoCost);
+        for (int yVal : values) {
+            for (int oVal : values) {
+                if (yVal == oVal)
+                    continue;
+                ans = Math.min(ans, findCost(grid, yVal, oVal));
+            }
+        }
 
-        int oneZeroCost = findCost(grid, 1, 0);
-        int oneTwoCost = findCost(grid, 1, 2);
-
-        int yOneCost = Math.min(oneZeroCost, oneTwoCost);
-
-        int twoZeroCost = findCost(grid, 2, 0);
-        int twoOneCost = findCost(grid, 2, 1);
-
-        int yTwoCost = Math.min(twoZeroCost, twoOneCost);
-
-        int ans = Math.min(yZeroCost, Math.min(yOneCost, yTwoCost));
         return ans;
     }
 }
