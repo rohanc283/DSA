@@ -1,26 +1,22 @@
 class Solution {
-    public List<Integer> createCycle(int[][] grid, int sr, int er, int sc, int ec) {
-        List<Integer> elements = new ArrayList<>();
-        for (int i = sr; i < er; i++) {
-            elements.add(grid[i][sc]);
-        }
 
-        for (int j = sc; j < ec; j++) {
-            elements.add(grid[er][j]);
-        }
+    private List<Integer> extract(int[][] grid, int sr, int er, int sc, int ec) {
+        List<Integer> list = new ArrayList<>();
 
-        for (int i = er; i > sr; i--) {
-            elements.add(grid[i][ec]);
-        }
+        for (int i = sr; i < er; i++)
+            list.add(grid[i][sc]);
+        for (int j = sc; j < ec; j++)
+            list.add(grid[er][j]);
+        for (int i = er; i > sr; i--)
+            list.add(grid[i][ec]);
+        for (int j = ec; j > sc; j--)
+            list.add(grid[sr][j]);
 
-        for (int j = ec; j > sc; j--) {
-            elements.add(grid[sr][j]);
-        }
-        return elements;
+        return list;
     }
 
-    void reverse(List<Integer> list, int l, int r) {
-        while (l <= r) {
+    private void reverse(List<Integer> list, int l, int r) {
+        while (l < r) {
             int tmp = list.get(l);
             list.set(l, list.get(r));
             list.set(r, tmp);
@@ -29,57 +25,36 @@ class Solution {
         }
     }
 
-    public void rotateCycleByK(List<Integer> list, int k) {
-        k = k % list.size();
-        int n = list.size() - 1;
-        reverse(list, 0, n - k);
-        reverse(list, n - k + 1, list.size() - 1);
-        reverse(list, 0, n);
+    private void rotateRight(List<Integer> list, int k) {
+        int n = list.size();
+        k %= n;
+        reverse(list, 0, n - k - 1);
+        reverse(list, n - k, n - 1);
+        reverse(list, 0, n - 1);
     }
 
-    public void populateBackInGrid(int[][] grid, int sr, int er, int sc, int ec, List<Integer> list) {
-        int k = 0;
-        for (int i = sr; i < er; i++) {
-            grid[i][sc] = list.get(k++);
-        }
+    private void fillBack(int[][] grid, int sr, int er, int sc, int ec, List<Integer> list) {
+        int idx = 0;
 
-        for (int j = sc; j < ec; j++) {
-            grid[er][j] = list.get(k++);
-        }
-
-        for (int i = er; i > sr; i--) {
-            grid[i][ec] = list.get(k++);
-        }
-
-        for (int j = ec; j > sc; j--) {
-            grid[sr][j] = list.get(k++);
-        }
+        for (int i = sr; i < er; i++)
+            grid[i][sc] = list.get(idx++);
+        for (int j = sc; j < ec; j++)
+            grid[er][j] = list.get(idx++);
+        for (int i = er; i > sr; i--)
+            grid[i][ec] = list.get(idx++);
+        for (int j = ec; j > sc; j--)
+            grid[sr][j] = list.get(idx++);
     }
 
     public int[][] rotateGrid(int[][] grid, int k) {
         int m = grid.length, n = grid[0].length;
-        List<List<Integer>> cyclicLists = new ArrayList<>();
-        int sr = 0, er = m - 1;
-        int sc = 0, ec = n - 1;
-        while (sr < er && sc < ec) {
-            cyclicLists.add(createCycle(grid, sr, er, sc, ec));
-            sr++;
-            er--;
-            sc++;
-            ec--;
-        }
+        int sr = 0, er = m - 1, sc = 0, ec = n - 1;
 
-        for (List<Integer> cyclicList : cyclicLists) {
-            rotateCycleByK(cyclicList, k);
-        }
-
-        sr = 0;
-        er = m - 1;
-        sc = 0;
-        ec = n - 1;
-        int ci = 0;
         while (sr < er && sc < ec) {
-            populateBackInGrid(grid, sr, er, sc, ec, cyclicLists.get(ci++));
+            List<Integer> layer = extract(grid, sr, er, sc, ec);
+            rotateRight(layer, k);
+            fillBack(grid, sr, er, sc, ec, layer);
+
             sr++;
             er--;
             sc++;
