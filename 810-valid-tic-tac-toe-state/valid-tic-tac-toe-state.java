@@ -1,39 +1,36 @@
 class Solution {
-    public boolean checkWon(String[] board, char ele) {
-        int[] dir = { -1, 0, 1 };
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i].charAt(j) == ele) {
-                    for (int x : dir) {
-                        for (int y : dir) {
-                            if (x == 0 && y == 0)
-                                continue;
-                            int r = i + x, c = j + y;
-                            int count = 1;
-                            while (r >= 0 && r < 3 && c >= 0 && c < 3) {
-                                if (board[r].charAt(c) == ele) {
-                                    count++;
-                                    if (count == 3) {
-                                        System.out.println(i + " " + j);
-                                        return true;
-                                    }
-                                } else {
-                                    break;
-                                }
-                                r += x;
-                                c += y;
-                            }
+    public boolean checkWon(String[] board, char ch) {
 
-                        }
-                    }
-                }
-            }
+        for (int i = 0; i < 3; i++) {
+            if (board[i].charAt(0) == ch &&
+                    board[i].charAt(1) == ch &&
+                    board[i].charAt(2) == ch)
+                return true;
         }
+
+        for (int j = 0; j < 3; j++) {
+            if (board[0].charAt(j) == ch &&
+                    board[1].charAt(j) == ch &&
+                    board[2].charAt(j) == ch)
+                return true;
+        }
+
+        if (board[0].charAt(0) == ch &&
+                board[1].charAt(1) == ch &&
+                board[2].charAt(2) == ch)
+            return true;
+
+        if (board[0].charAt(2) == ch &&
+                board[1].charAt(1) == ch &&
+                board[2].charAt(0) == ch)
+            return true;
+
         return false;
     }
 
     public boolean validTicTacToe(String[] board) {
         int xCount = 0, oCount = 0;
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i].charAt(j) == 'X')
@@ -43,7 +40,7 @@ class Solution {
             }
         }
 
-        if (oCount > xCount || xCount - 1 > oCount)
+        if (oCount > xCount || xCount - oCount > 1)
             return false;
 
         boolean xWon = checkWon(board, 'X');
@@ -52,11 +49,12 @@ class Solution {
         if (xWon && oWon)
             return false;
 
-        if (xWon) {
-            return xCount - 1 == oCount;
-        } else if (oWon) {
-            return oCount == xCount;
-        }
+        if (xWon)
+            return xCount == oCount + 1;
+        if (oWon)
+            return xCount == oCount;
+
         return true;
     }
+
 }
