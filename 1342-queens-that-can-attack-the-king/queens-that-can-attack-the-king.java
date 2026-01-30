@@ -1,5 +1,5 @@
 class Solution {
-    public List<List<Integer>> withSpace(int[][] queens, int[] king) {
+    public List<List<Integer>> usingBoard(int[][] queens, int[] king) {
         int[][] board = new int[8][8];
         board[king[0]][king[1]] = 1;
         for (int i = 0; i < queens.length; i++) {
@@ -26,7 +26,7 @@ class Solution {
         return res;
     }
 
-    public List<List<Integer>> queensAttacktheKing(int[][] queens, int[] king) {
+    public List<List<Integer>> usingSet(int[][] queens, int[] king) {
         Set<String> queensPos = new HashSet<>();
         for (int i = 0; i < queens.length; i++) {
             queensPos.add(queens[i][0] + "," + queens[i][1]);
@@ -51,5 +51,9 @@ class Solution {
             }
         }
         return res;
+    }
+
+    public List<List<Integer>> queensAttacktheKing(int[][] queens, int[] king) {
+        return usingBoard(queens, king);
     }
 }
