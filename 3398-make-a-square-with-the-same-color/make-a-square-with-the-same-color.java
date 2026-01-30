@@ -119,12 +119,32 @@ class Solution {
         }
     }
 
-    public boolean canMakeSquare(char[][] grid) {
+    public boolean checkAllDir(char[][] grid) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 // check upper matrix
                 if (checkUpperLeft(grid, i, j) || checkLowerLeft(grid, i, j)
                         || checkUpperRight(grid, i, j) || checkLowerRight(grid, i, j))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canMakeSquare(char[][] grid) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                int bCount = 0;
+                if (grid[i][j] == 'B')
+                    bCount++;
+                if (grid[i][j + 1] == 'B')
+                    bCount++;
+                if (grid[i + 1][j + 1] == 'B')
+                    bCount++;
+                if (grid[i + 1][j] == 'B')
+                    bCount++;
+
+                if (bCount >= 3 || bCount <= 1)
                     return true;
             }
         }
