@@ -1,24 +1,22 @@
 class Solution {
     public int numberOfBeams(String[] bank) {
-        int n = bank.length;
-        int[] rowSecDevices = new int[n];
-        for (int i = 0; i < n; i++) {
-            int secDeviceCount = 0;
-            for (int j = 0; j < bank[i].length(); j++) {
-                if (bank[i].charAt(j) == '1')
-                    secDeviceCount++;
+        int prev = 0;
+        int total = 0;
+
+        for (String row : bank) {
+            int curr = 0;
+
+            for (char c : row.toCharArray()) {
+                if (c == '1')
+                    curr++;
             }
-            rowSecDevices[i] = secDeviceCount;
+
+            if (curr > 0) {
+                total += prev * curr;
+                prev = curr;
+            }
         }
 
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            int j = i + 1;
-            while (j < n && rowSecDevices[j] == 0)
-                j++;
-            if (j != n)
-                count += rowSecDevices[i] * rowSecDevices[j];
-        }
-        return count;
+        return total;
     }
 }
