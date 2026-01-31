@@ -1,5 +1,5 @@
 class Solution {
-    public List<Integer> luckyNumbers(int[][] matrix) {
+    public List<Integer> withSpace(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
         List<Integer> res = new ArrayList<>();
         Set<Integer> rowMinSet = new HashSet<>();
@@ -25,5 +25,35 @@ class Solution {
             }
         }
         return res;
+    }
+
+    public List<Integer> withoutSpace(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            int colIdx = 0, mini = matrix[i][0];
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] < mini) {
+                    mini = matrix[i][j];
+                    colIdx = j;
+                }
+            }
+
+            boolean colMax = true;
+            for (int j = 0; j < m; j++) {
+                if (matrix[j][colIdx] > matrix[i][colIdx]) {
+                    colMax = false;
+                    break;
+                }
+            }
+            if (colMax)
+                res.add(matrix[i][colIdx]);
+        }
+        return res;
+    }
+
+    public List<Integer> luckyNumbers(int[][] matrix) {
+        return withoutSpace(matrix);
     }
 }
