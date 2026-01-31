@@ -11,7 +11,8 @@ class Solution {
 
     public int maxSum(int[][] grid) {
         int m = grid.length, n = grid[0].length;
-        int maxi = 0;
+        int maxi = Integer.MIN_VALUE;
+
         for (int i = 0; i < m - 2; i++) {
             for (int j = 0; j < n - 2; j++) {
                 maxi = Math.max(maxi, hourglassSum(grid, i, j));
