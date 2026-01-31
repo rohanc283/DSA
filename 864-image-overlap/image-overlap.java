@@ -1,14 +1,19 @@
 class Solution {
-    public int countOverLap(int[][] img1, int[][] img2, int n, int rowOffset, int colOffset) {
+
+    private int overlap(int[][] a, int[][] b, int dx, int dy) {
+        int n = a.length;
         int count = 0;
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int img2I = i + rowOffset;
-                int img2J = j + colOffset;
-                if (img2I < 0 || img2I >= n || img2J < 0 || img2J >= n)
-                    continue;
-                if (img1[i][j] == 1 && img2[img2I][img2J] == 1)
-                    count++;
+                int x = i + dx;
+                int y = j + dy;
+
+                if (x >= 0 && x < n && y >= 0 && y < n) {
+                    if (a[i][j] == 1 && b[x][y] == 1) {
+                        count++;
+                    }
+                }
             }
         }
         return count;
@@ -16,12 +21,16 @@ class Solution {
 
     public int largestOverlap(int[][] img1, int[][] img2) {
         int n = img1.length;
-        int res = 0;
-        for (int rowOffset = -n + 1; rowOffset < n; rowOffset++) {
-            for (int colOffset = -n + 1; colOffset < n; colOffset++) {
-                res = Math.max(res, countOverLap(img1, img2, n, rowOffset, colOffset));
+        int maxOverlap = 0;
+
+        for (int dx = -n + 1; dx < n; dx++) {
+            for (int dy = -n + 1; dy < n; dy++) {
+                maxOverlap = Math.max(
+                        maxOverlap,
+                        overlap(img1, img2, dx, dy));
             }
         }
-        return res;
+
+        return maxOverlap;
     }
 }
