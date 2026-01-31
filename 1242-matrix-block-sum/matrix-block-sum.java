@@ -29,7 +29,6 @@ class Solution {
     public int[][] solUsingMatrixPrefix(int[][] mat, int k) {
         int m = mat.length, n = mat[0].length;
 
-        // Build 2D prefix sum
         int[][] prefix = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -40,7 +39,6 @@ class Solution {
             }
         }
 
-        // Compute block sums
         int[][] res = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
