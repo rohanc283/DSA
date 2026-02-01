@@ -11,7 +11,19 @@ class Solution {
         return (prev ^ start) == derived[n - 1];
     }
 
-    public boolean doesValidArrayExist(int[] derived) {
+    public boolean sol1(int[] derived) {
         return checkXor(derived, 0) || checkXor(derived, 1);
+    }
+
+    public boolean sol2(int[] derived) {
+        int xor = derived[0];
+        for (int i = 1; i < derived.length; i++) {
+            xor ^= derived[i];
+        }
+        return xor == 0;
+    }
+
+    public boolean doesValidArrayExist(int[] derived) {
+        return sol2(derived);
     }
 }
