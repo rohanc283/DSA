@@ -1,14 +1,17 @@
 class Solution {
     public String[] sortPeople(String[] names, int[] heights) {
-        Map<Integer, String> map = new TreeMap<>();
-        for (int i = 0; i < names.length; i++) {
-            map.put(heights[i], names[i]);
+        int n = names.length;
+        Integer[] idx = new Integer[n];
+
+        for (int i = 0; i < n; i++)
+            idx[i] = i;
+
+        Arrays.sort(idx, (a, b) -> heights[b] - heights[a]);
+
+        String[] res = new String[n];
+        for (int i = 0; i < n; i++) {
+            res[i] = names[idx[i]];
         }
-        int i = 0;
-        for (String value : map.values()) {
-            names[i++] = value;
-        }
-        Collections.reverse(Arrays.asList(names));
-        return names;
+        return res;
     }
 }
