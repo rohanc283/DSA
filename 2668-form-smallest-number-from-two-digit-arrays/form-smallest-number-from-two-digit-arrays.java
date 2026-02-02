@@ -1,30 +1,24 @@
 class Solution {
     public int minNumber(int[] nums1, int[] nums2) {
-        int[] num1Digit = new int[10];
-        int[] num2Digit = new int[10];
+        boolean[] a = new boolean[10];
+        boolean[] b = new boolean[10];
 
-        for (int i = 0; i < nums1.length; i++) {
-            num1Digit[nums1[i]]++;
-        }
+        for (int x : nums1)
+            a[x] = true;
+        for (int x : nums2)
+            b[x] = true;
 
-        for (int i = 0; i < nums2.length; i++) {
-            num2Digit[nums2[i]]++;
-        }
+        int minA = -1, minB = -1;
 
-        int res = 0;
-        int num1 = -1, num2 = -1;
-        for (int i = 1; i < 10; i++) {
-            if (num1Digit[i] > 0 && num2Digit[i] > 0)
+        for (int i = 1; i <= 9; i++) {
+            if (a[i] && b[i])
                 return i;
-            if (num1Digit[i] > 0 && num1 == -1)
-                num1 = i;
-            if (num2Digit[i] > 0 && num2 == -1)
-                num2 = i;
-
+            if (a[i] && minA == -1)
+                minA = i;
+            if (b[i] && minB == -1)
+                minB = i;
         }
 
-        if (num1 < num2)
-            return num1 * 10 + num2;
-        return num2 * 10 + num1;
+        return Math.min(minA * 10 + minB, minB * 10 + minA);
     }
 }
