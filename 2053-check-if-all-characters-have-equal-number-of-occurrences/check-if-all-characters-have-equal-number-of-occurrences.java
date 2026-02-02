@@ -1,14 +1,15 @@
 class Solution {
     public boolean areOccurrencesEqual(String s) {
-        if (s.length() == 1)
-            return true;
-        Map<Character, Integer> letterMap = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>();
         for (char c : s.toCharArray()) {
-            letterMap.put(c, letterMap.getOrDefault(c, 0) + 1);
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
-        int count = letterMap.get(s.charAt(0));
-        for (Character key : letterMap.keySet()) {
-            if (letterMap.get(key) != count)
+
+        int freq = -1;
+        for (int val : map.values()) {
+            if (freq == -1)
+                freq = val;
+            else if (val != freq)
                 return false;
         }
         return true;
