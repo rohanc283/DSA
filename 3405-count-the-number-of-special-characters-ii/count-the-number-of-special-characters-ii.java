@@ -15,12 +15,9 @@ class Solution {
         }
         int count = 0;
         for (int i = 0; i < 26; i++) {
-            if (lower[i] == -1 || upper[i] == -1)
-                continue;
-            if (lower[i] > upper[i])
-                continue;
-            if (lower[i] < upper[i])
+            if (lower[i] != -1 && upper[i] != -1 && lower[i] < upper[i]) {
                 count++;
+            }
         }
         return count;
     }
