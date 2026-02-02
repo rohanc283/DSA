@@ -3,32 +3,28 @@ class Solution {
         int[] freq = new int[26];
         for (char c : s.toCharArray())
             freq[c - 'a']++;
+
         StringBuilder res = new StringBuilder();
-        while (true) {
-            boolean isEmpty = true;
+        int total = s.length();
+
+        while (total > 0) {
             for (int i = 0; i < 26; i++) {
                 if (freq[i] > 0) {
-                    char c = (char) ('a' + i);
-                    res.append(c);
+                    res.append((char) ('a' + i));
                     freq[i]--;
-                    isEmpty = false;
+                    total--;
                 }
             }
-            if (isEmpty)
-                break;
 
-            isEmpty = true;
             for (int i = 25; i >= 0; i--) {
                 if (freq[i] > 0) {
-                    char c = (char) ('a' + i);
-                    res.append(c);
+                    res.append((char) ('a' + i));
                     freq[i]--;
-                    isEmpty = false;
+                    total--;
                 }
             }
-            if (isEmpty)
-                break;
         }
+
         return res.toString();
     }
 }
