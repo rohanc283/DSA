@@ -1,5 +1,6 @@
 class Solution {
-    public boolean isAnagram(String s, String t) {
+
+    private boolean isAnagram(String s, String t) {
         if (s.length() != t.length())
             return false;
 
@@ -8,7 +9,6 @@ class Solution {
             freq[s.charAt(i) - 'a']++;
             freq[t.charAt(i) - 'a']--;
         }
-
         for (int f : freq)
             if (f != 0)
                 return false;
@@ -18,19 +18,12 @@ class Solution {
 
     public List<String> removeAnagrams(String[] words) {
         List<String> res = new ArrayList<>();
-        for (String word : words)
-            res.add(word);
-        while (res.size() > 1) {
-            int i = 1;
-            while (i < res.size()) {
-                if (isAnagram(res.get(i), res.get(i - 1))) {
-                    res.remove(i);
-                    break;
-                }
-                i++;
+        res.add(words[0]);
+
+        for (int i = 1; i < words.length; i++) {
+            if (!isAnagram(words[i], res.get(res.size() - 1))) {
+                res.add(words[i]);
             }
-            if (i == res.size())
-                break;
         }
         return res;
     }
