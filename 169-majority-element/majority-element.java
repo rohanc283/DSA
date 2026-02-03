@@ -1,5 +1,5 @@
 class Solution {
-    public int majorityElement(int[] nums) {
+    public int sol1(int[] nums) {
         int n = nums.length;
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums)
@@ -11,5 +11,20 @@ class Solution {
         }
 
         return -1;
+    }
+
+    public int sol2(int[] nums) {
+        int count = 0, candidate = 0;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (candidate == num) ? 1 : -1;
+        }
+        return candidate;
+    }
+
+    public int majorityElement(int[] nums) {
+        return sol2(nums);
     }
 }
