@@ -3,15 +3,20 @@ class Solution {
         if (s.length() != t.length())
             return false;
 
-        Map<Character, Character> sMap = new HashMap<>();
-        Map<Character, Character> tMap = new HashMap<>();
+        Map<Character, Character> sToT = new HashMap<>();
+        Map<Character, Character> tToS = new HashMap<>();
+
         for (int i = 0; i < s.length(); i++) {
-            if (sMap.containsKey(s.charAt(i)) && sMap.get(s.charAt(i)) != t.charAt(i))
+            char cs = s.charAt(i);
+            char ct = t.charAt(i);
+
+            if (sToT.containsKey(cs) && sToT.get(cs) != ct)
                 return false;
-            if (tMap.containsKey(t.charAt(i)) && tMap.get(t.charAt(i)) != s.charAt(i))
+            if (tToS.containsKey(ct) && tToS.get(ct) != cs)
                 return false;
-            sMap.put(s.charAt(i), t.charAt(i));
-            tMap.put(t.charAt(i), s.charAt(i));
+
+            sToT.put(cs, ct);
+            tToS.put(ct, cs);
         }
         return true;
     }
