@@ -1,31 +1,33 @@
 class Solution {
     public String frequencySort(String s) {
-        Map<Character, Integer> map = new HashMap<>();
-        for (char c : s.toCharArray())
-            map.put(c, map.getOrDefault(c, 0) + 1);
+        Map<Character, Integer> freq = new HashMap<>();
 
-        int maxi = 0;
-        for (Integer val : map.values())
-            maxi = Math.max(maxi, val);
+        for (char c : s.toCharArray()) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+
+        int maxFreq = 0;
+        for (int f : freq.values()) {
+            maxFreq = Math.max(maxFreq, f);
+        }
 
         List<List<Character>> bucket = new ArrayList<>();
-        for (int i = 0; i <= maxi; i++)
+        for (int i = 0; i <= maxFreq; i++) {
             bucket.add(new ArrayList<>());
-
-        for (Character key : map.keySet()) {
-            bucket.get(map.get(key)).add(key);
         }
 
-        StringBuilder res = new StringBuilder();
-        for (int i = maxi; i >= 0; i--) {
-            for (int j = 0; j < bucket.get(i).size(); j++) {
-                int k = i;
-                while (k > 0) {
-                    res.append(bucket.get(i).get(j));
-                    k--;
-                }
+        for (char c : freq.keySet()) {
+            bucket.get(freq.get(c)).add(c);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int f = maxFreq; f > 0; f--) {
+            for (char c : bucket.get(f)) {
+                sb.append(String.valueOf(c).repeat(f));
             }
         }
-        return res.toString();
+
+        return sb.toString();
     }
 }
