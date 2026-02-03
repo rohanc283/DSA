@@ -10,6 +10,7 @@ class Solution {
                 if (freq[c - 'a'] > 1)
                     return true;
             }
+            return false;
         }
 
         int first = -1, second = -1;
