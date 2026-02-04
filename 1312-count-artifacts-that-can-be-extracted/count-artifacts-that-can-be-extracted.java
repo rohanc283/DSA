@@ -1,34 +1,30 @@
 class Solution {
     public int digArtifacts(int n, int[][] artifacts, int[][] dig) {
-        Set<String> set = new HashSet<>();
-        for (int i = 0; i < dig.length; i++) {
-            String key = dig[i][0] + "," + dig[i][1];
-            set.add(key);
+
+        Set<Integer> dug = new HashSet<>();
+        for (int[] d : dig) {
+            dug.add(d[0] * n + d[1]);
         }
+
         int count = 0;
-        for (int i = 0; i < artifacts.length; i++) {
-            int sr = artifacts[i][0];
-            int sc = artifacts[i][1];
-            int er = artifacts[i][2];
-            int ec = artifacts[i][3];
 
-            int tr = er - sr + 1;
-            int tc = ec - sc + 1;
+        for (int[] a : artifacts) {
+            int sr = a[0], sc = a[1], er = a[2], ec = a[3];
+            boolean complete = true;
 
-            int total = tr * tc;
-
-            for (int r = sr; r <= er; r++) {
+            for (int r = sr; r <= er && complete; r++) {
                 for (int c = sc; c <= ec; c++) {
-                    String key = r + "," + c;
-                    if (set.contains(key)) {
-                        total--;
+                    if (!dug.contains(r * n + c)) {
+                        complete = false;
+                        break;
                     }
                 }
             }
 
-            if (total == 0)
+            if (complete)
                 count++;
         }
+
         return count;
     }
 }
