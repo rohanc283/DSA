@@ -17,11 +17,7 @@ class Solution {
                     curr.append(s.charAt(j++));
                 }
                 String key = curr.toString();
-                if (map.containsKey(key)) {
-                    res.append(map.get(key));
-                } else {
-                    res.append("?");
-                }
+                res.append(map.getOrDefault(key, "?"));
                 i = j;
             }
         }
