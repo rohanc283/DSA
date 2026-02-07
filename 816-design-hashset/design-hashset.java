@@ -11,7 +11,7 @@ class MyHashSet {
     }
 
     private int getIdx(int key) {
-        return key % N;
+        return ((key % N) + N) % N;
     }
 
     public void add(int key) {
