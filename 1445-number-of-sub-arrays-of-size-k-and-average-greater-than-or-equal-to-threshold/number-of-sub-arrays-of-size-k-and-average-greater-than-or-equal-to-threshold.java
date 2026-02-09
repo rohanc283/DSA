@@ -5,7 +5,7 @@ class Solution {
         for (int j = 0; j < arr.length; j++) {
             sum += arr[j];
             if (j >= k - 1) {
-                double avg = sum / k;
+                int avg = sum / k;
                 if (avg >= threshold)
                     res++;
                 sum -= arr[i++];
