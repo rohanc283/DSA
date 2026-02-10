@@ -9,9 +9,7 @@ class Solution {
                 if (nums[s++] == 0)
                     zeros--;
             }
-            int l = e - s + 1;
-            int maxOnes = zeros == 0 ? l - 1 : l - zeros;
-            res = Math.max(res, maxOnes);
+            res = Math.max(res, e - s);
         }
         return res;
     }
