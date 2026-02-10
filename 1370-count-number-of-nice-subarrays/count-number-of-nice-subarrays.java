@@ -1,6 +1,5 @@
 class Solution {
-
-    public int numberOfSubarrays(int[] nums, int k) {
+    public int sol1(int[] nums, int k) {
         int n = nums.length;
         int count = 0, sum = 0;
         Map<Integer, Integer> map = new HashMap<>();
@@ -15,5 +14,29 @@ class Solution {
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return count;
+    }
+
+    public int numberWithAtMostK(int[] nums, int k) {
+        int n = nums.length, s = 0, e = 0;
+        int res = 0, curr = 0;
+        while (e < n) {
+            if (nums[e] % 2 != 0)
+                curr++;
+            while (curr > k) {
+                if (nums[s++] % 2 != 0)
+                    curr--;
+            }
+            res += (e - s + 1);
+            e++;
+        }
+        return res;
+    }
+
+    public int sol2(int[] nums, int k) {
+        return numberWithAtMostK(nums, k) - numberWithAtMostK(nums, k - 1);
+    }
+
+    public int numberOfSubarrays(int[] nums, int k) {
+        return sol2(nums, k);
     }
 }
