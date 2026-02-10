@@ -15,7 +15,6 @@ class Solution {
             }
 
             if (j >= minutes - 1) {
-                System.out.println(j + " " + satisfiedCustomers);
                 maximumSatisfiedCustomers = Math.max(maximumSatisfiedCustomers, satisfiedCustomers);
                 if (grumpy[i] == 1) {
                     satisfiedCustomers -= customers[i];
