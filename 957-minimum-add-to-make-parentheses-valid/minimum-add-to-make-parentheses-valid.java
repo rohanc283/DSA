@@ -17,19 +17,14 @@ class Solution {
 
     public int sol2(String s) {
         int open = 0, close = 0;
-        boolean add = false;
         for (char c : s.toCharArray()) {
             if (c == '(') {
                 open++;
-                add = true;
             } else {
-                if (add) {
+                if (open > 0) {
                     open--;
-                    if (open == 0)
-                        add = false;
                 } else {
                     close++;
-                    add = false;
                 }
             }
         }
