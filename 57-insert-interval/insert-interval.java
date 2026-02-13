@@ -47,7 +47,7 @@ class Solution {
         while (i < n && intervals[i][1] < newInterval[0]) {
             res.add(intervals[i++]);
         }
-        res.add(newInterval);
+        res.add(new int[] { newInterval[0], newInterval[1] });
         while (i < n) {
             if (res.get(res.size() - 1)[1] < intervals[i][0]) {
                 res.add(intervals[i]);
