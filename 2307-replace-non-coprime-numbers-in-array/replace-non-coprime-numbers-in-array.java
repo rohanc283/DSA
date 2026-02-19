@@ -8,7 +8,7 @@ class Solution {
         return a;
     }
 
-    public List<Integer> replaceNonCoprimes(int[] nums) {
+    public List<Integer> sol1(int[] nums) {
         List<Integer> res = new ArrayList<>();
         for (int num : nums) {
             res.add(num);
@@ -24,5 +24,9 @@ class Solution {
             }
         }
         return res;
+    }
+
+    public List<Integer> replaceNonCoprimes(int[] nums) {
+        return sol1(nums);
     }
 }
