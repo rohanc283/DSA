@@ -67,7 +67,6 @@ class Solution {
         if (n == 1)
             return heights[0];
         for (int i = 0; i < n; i++) {
-            System.out.println(prefix[i] + " " + suffix[i]);
             res = Math.max(res, prefix[i] + suffix[i] - heights[i]);
         }
         return res;
