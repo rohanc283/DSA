@@ -45,12 +45,7 @@ class Solution {
             }
         }
 
-        Map<String, Integer> top = stack.peek();
-        Map<String, Integer> resMap = new TreeMap<>();
-        for (String key : top.keySet()) {
-            resMap.put(key, top.get(key));
-        }
-
+        Map<String, Integer> resMap = new TreeMap<>(stack.peek());
         StringBuilder res = new StringBuilder();
         for (String key : resMap.keySet()) {
             res.append(key);
