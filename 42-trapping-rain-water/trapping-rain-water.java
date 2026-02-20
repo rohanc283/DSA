@@ -35,7 +35,7 @@ class Solution {
         return res;
     }
 
-    public int trap(int[] height) {
+    public int sol2(int[] height) {
         int n = height.length;
         Deque<Integer> stack = new ArrayDeque<>();
         int res = 0;
@@ -52,5 +52,25 @@ class Solution {
             stack.push(i);
         }
         return res;
+    }
+
+    public int sol3(int[] height) {
+        int n = height.length;
+        int i = 0, j = n - 1, leftMax = 0, rightMax = 0;
+        int res = 0;
+        while (i < j) {
+            leftMax = Math.max(leftMax, height[i]);
+            rightMax = Math.max(rightMax, height[j]);
+            if (leftMax < rightMax) {
+                res += leftMax - height[i++];
+            } else {
+                res += rightMax - height[j--];
+            }
+        }
+        return res;
+    }
+
+    public int trap(int[] height) {
+        return sol3(height);
     }
 }
