@@ -1,5 +1,5 @@
 class Solution {
-    public int specialArray(int[] nums) {
+    public int sol1(int[] nums) {
         Arrays.sort(nums);
         int s = 0, e = nums.length;
         while (s <= e) {
@@ -18,5 +18,9 @@ class Solution {
             }
         }
         return -1;
+    }
+
+    public int specialArray(int[] nums) {
+        return sol1(nums);
     }
 }
