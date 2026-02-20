@@ -1,14 +1,24 @@
 class Solution {
+    public int lowerBound(int[] nums, int target) {
+        int s = 0, e = nums.length - 1;
+        while (s <= e) {
+            int m = s + (e - s) / 2;
+            if (nums[m] >= target) {
+                e = m - 1;
+            } else {
+                s = m + 1;
+            }
+        }
+        return s;
+    }
+
     public int sol1(int[] nums) {
         Arrays.sort(nums);
-        int s = 0, e = nums.length;
+        int n = nums.length;
+        int s = 0, e = n;
         while (s <= e) {
             int mid = s + (e - s) / 2;
-            int count = 0;
-            for (int num : nums) {
-                if (num >= mid)
-                    count++;
-            }
+            int count = n - lowerBound(nums, mid);
             if (count == mid) {
                 return mid;
             } else if (count > mid) {
@@ -40,6 +50,6 @@ class Solution {
     }
 
     public int specialArray(int[] nums) {
-        return sol2(nums);
+        return sol1(nums);
     }
 }
