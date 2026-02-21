@@ -33,22 +33,30 @@ class Solution {
         return res;
     }
 
-    public List<Integer> targetIndices(int[] nums, int target) {
+    public List<Integer> sol1(int[] nums, int target) {
         Arrays.sort(nums);
         int s = 0, e = nums.length - 1;
         List<Integer> res = new ArrayList<>();
         int f = firstPos(nums, target), l = lastPos(nums, target);
         if (f == -1 && l == -1)
             return res;
-        else if (f != -1 && l == -1) {
-            res.add(f);
-            return res;
-        } else if (f == -1 && l != -1) {
-            res.add(l);
-            return res;
-        }
         for (int i = f; i <= l; i++)
             res.add(i);
+        return res;
+    }
+
+    public List<Integer> targetIndices(int[] nums, int target) {
+        int smaller = 0, equals = 0;
+        for (int num : nums) {
+            if (num < target)
+                smaller++;
+            else if (num == target)
+                equals++;
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < equals; i++) {
+            res.add(smaller + i);
+        }
         return res;
     }
 }
