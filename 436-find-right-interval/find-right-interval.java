@@ -23,7 +23,6 @@ class Solution {
                 s = m + 1;
             }
         }
-        System.out.println(res);
         return res;
 
     }
@@ -38,7 +37,6 @@ class Solution {
         int[] res = new int[n];
         for (int i = 0; i < n; i++) {
             Interval curr = allIntervals[i];
-            System.out.println(curr.start + " " + curr.end + " " + curr.pos);
             res[curr.pos] = findNextInterval(allIntervals, curr, i, n - 1);
         }
         return res;
