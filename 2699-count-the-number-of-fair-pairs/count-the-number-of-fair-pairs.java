@@ -8,7 +8,7 @@ class Solution {
                 r = m - 1;
             }
         }
-        return l - 1;
+        return l;
     }
 
     int upperBound(int[] nums, int target, int l, int r) {
@@ -31,8 +31,7 @@ class Solution {
         for (int i = 0; i < n; i++) {
             int left = lowerBound(nums, lower - nums[i], i + 1, n - 1);
             int leftVal = left - i - 1;
-            int right = upperBound(nums, upper - nums[i], i + 1, n - 1) - 1;
-            System.out.println(left + " " + right);
+            int right = upperBound(nums, upper - nums[i], i + 1, n - 1);
             int rightVal = right - i - 1;
             res += (rightVal - leftVal);
         }
