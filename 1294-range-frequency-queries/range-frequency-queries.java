@@ -45,11 +45,9 @@ class RangeFreqQuery {
         if (!map.containsKey(value))
             return 0;
         List<Integer> indexes = map.get(value);
-        if (indexes.get(0) > right)
-            return 0;
-        if (indexes.get(indexes.size() - 1) < left)
-            return 0;
         int f = firstPos(indexes, left), l = lastPos(indexes, right);
+        if (f == -1 || l == -1 || f > l)
+            return 0;
         return l - f + 1;
     }
 }
