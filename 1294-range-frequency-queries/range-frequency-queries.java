@@ -30,6 +30,18 @@ class RangeFreqQuery {
         return res;
     }
 
+    private int lowerBound(List<Integer> list, int target) {
+        int l = 0, r = list.size();
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (list.get(mid) < target)
+                l = mid + 1;
+            else
+                r = mid;
+        }
+        return l;
+    }
+
     Map<Integer, List<Integer>> map;
 
     public RangeFreqQuery(int[] arr) {
@@ -45,10 +57,13 @@ class RangeFreqQuery {
         if (!map.containsKey(value))
             return 0;
         List<Integer> indexes = map.get(value);
-        int f = firstPos(indexes, left), l = lastPos(indexes, right);
-        if (f == -1 || l == -1 || f > l)
-            return 0;
-        return l - f + 1;
+        // int f = firstPos(indexes, left), l = lastPos(indexes, right);
+        // if (f == -1 || l == -1 || f > l)
+        //     return 0;
+        // return l - f + 1;
+        int leftIdx = lowerBound(indexes, left);
+        int rightIdx = lowerBound(indexes, right + 1);
+        return rightIdx - leftIdx;
     }
 }
 
