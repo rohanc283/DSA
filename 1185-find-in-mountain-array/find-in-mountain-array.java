@@ -8,8 +8,7 @@
  */
 
 class Solution {
-    public int peakIndexInMountainArray(MountainArray mountainArr) {
-        int n = mountainArr.length();
+    public int peakIndexInMountainArray(MountainArray mountainArr, int n) {
         int l = 0, h = n - 1;
         while (l < h) {
             int m = l + (h - l) / 2;
@@ -26,8 +25,9 @@ class Solution {
         int res = -1;
         while (l <= h) {
             int m = l + (h - l) / 2;
-            if (mountainArr.get(m) >= target) {
-                if (mountainArr.get(m) == target)
+            int val = mountainArr.get(m);
+            if (val >= target) {
+                if (val == target)
                     res = m;
                 h = m - 1;
             } else {
@@ -41,8 +41,9 @@ class Solution {
         int res = -1;
         while (l <= h) {
             int m = l + (h - l) / 2;
-            if (mountainArr.get(m) >= target) {
-                if (mountainArr.get(m) == target)
+            int val = mountainArr.get(m);
+            if (val >= target) {
+                if (val == target)
                     res = m;
                 l = m + 1;
             } else {
@@ -55,7 +56,7 @@ class Solution {
     public int findInMountainArray(int target, MountainArray mountainArr) {
         int n = mountainArr.length();
         int res = -1;
-        int peakIdx = peakIndexInMountainArray(mountainArr);
+        int peakIdx = peakIndexInMountainArray(mountainArr, n);
         int l = leftBinarySearch(target, mountainArr, 0, peakIdx);
         if (l >= 0)
             return l;
