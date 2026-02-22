@@ -1,25 +1,21 @@
 class Solution {
-    public boolean isPoss(int[] bloomDay, int bouquets, int k, int maxDays) {
-        int n = bloomDay.length;
-        int bouquetCount = 0;
-        int adjacentCount = 0;
-        for (int i = 0; i < n; i++) {
-            boolean isBloomed = bloomDay[i] <= maxDays;
-            boolean isPrevBloomed = adjacentCount == 0 || bloomDay[i - 1] <= maxDays;
-            if (isBloomed && isPrevBloomed) {
-                adjacentCount++;
-            } else if (isBloomed && !isPrevBloomed) {
-                adjacentCount = 1;
-            } else if (!isBloomed) {
-                adjacentCount = 0;
-            }
+    public boolean isPoss(int[] bloomDay, int m, int k, int maxDays) {
+        int bouquets = 0;
+        int flowers = 0;
 
-            if (adjacentCount == k) {
-                bouquetCount++;
-                adjacentCount = 0;
+        for (int day : bloomDay) {
+            if (day <= maxDays) {
+                flowers++;
+                if (flowers == k) {
+                    bouquets++;
+                    flowers = 0;
+                }
+            } else {
+                flowers = 0;
             }
         }
-        return bouquetCount >= bouquets;
+
+        return bouquets >= m;
     }
 
     public int minDays(int[] bloomDay, int m, int k) {
