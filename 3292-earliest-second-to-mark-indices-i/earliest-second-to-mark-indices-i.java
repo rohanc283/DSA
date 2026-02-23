@@ -34,11 +34,17 @@ class Solution {
     public int earliestSecondToMarkIndices(int[] nums, int[] changeIndices) {
         m = changeIndices.length;
         n = nums.length;
-        for (int time = 0; time < m; time++) {
-            if (allIndexMarked(time, changeIndices, nums)) {
-                return time + 1;
+        int l = 0, h = m - 1;
+        int res = -1;
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if (allIndexMarked(m, changeIndices, nums)) {
+                res = m + 1;
+                h = m - 1;
+            } else {
+                l = m + 1;
             }
         }
-        return -1;
+        return res;
     }
 }
