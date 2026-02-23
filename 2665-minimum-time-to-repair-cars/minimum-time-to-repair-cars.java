@@ -1,8 +1,8 @@
 class Solution {
     public boolean isPoss(int[] ranks, int cars, long time) {
-        int carsCount = 0;
+        long carsCount = 0;
         for (int rank : ranks) {
-            carsCount += Math.sqrt(time / rank);
+            carsCount += (long) Math.sqrt(time / rank);
         }
         return carsCount >= cars;
     }
