@@ -4,6 +4,8 @@ class Solution {
         for (int i = 0; i < dist.length; i++) {
             currHour = Math.ceil(currHour);
             double time = ((double) dist[i] / (double) speed);
+            if (currHour + time > hour)
+                return false;
             currHour += time;
         }
         return currHour <= hour;
