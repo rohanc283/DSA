@@ -1,7 +1,8 @@
 class Solution {
     public boolean isPoss(int[] dist, double hour, int speed) {
+        int n = dist.length;
         double currHour = 0;
-        for (int i = 0; i < dist.length; i++) {
+        for (int i = 0; i < n; i++) {
             currHour = Math.ceil(currHour);
             double time = ((double) dist[i] / (double) speed);
             if (currHour + time > hour)
@@ -12,6 +13,9 @@ class Solution {
     }
 
     public int minSpeedOnTime(int[] dist, double hour) {
+        int n = dist.length;
+        if (hour <= n - 1)
+            return -1;
         int l = 1, h = 10000000;
         System.out.println(h);
         int res = -1;
