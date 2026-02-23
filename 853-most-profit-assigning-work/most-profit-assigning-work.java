@@ -52,15 +52,17 @@ class Solution {
     public int upperBound(List<Job> jobs, int tar) {
         int n = jobs.size();
         int l = 0, h = n - 1;
+        int res = -1;
         while (l <= h) {
             int m = l + (h - l) / 2;
             if (jobs.get(m).difficulty <= tar) {
+                res = m;
                 l = m + 1;
             } else {
                 h = m - 1;
             }
         }
-        return l;
+        return res;
     }
 
     public int sol3(int[] difficulty, int[] profit, int[] worker) {
@@ -70,20 +72,25 @@ class Solution {
             jobs.add(new Job(difficulty[i], profit[i]));
         }
         Collections.sort(jobs, (a, b) -> a.difficulty - b.difficulty);
+
+        int[] maxProfit = new int[totalJobs];
+        maxProfit[0] = jobs.get(0).profit;
+        for (int i = 1; i < totalJobs; i++) {
+            maxProfit[i] = Math.max(maxProfit[i - 1], jobs.get(i).profit);
+        }
+
         int res = 0;
-        Arrays.sort(profit);
         for (int w : worker) {
-            int upperBoundIdx = upperBound(jobs, w);
-            int maxProfit = 0;
-            for (int i = 0; i < upperBoundIdx; i++) {
-                maxProfit = Math.max(maxProfit, jobs.get(i).profit);
+            int lowerBoundIdx = upperBound(jobs, w);
+            System.out.println(lowerBoundIdx);
+            if (lowerBoundIdx != -1) {
+                res += maxProfit[lowerBoundIdx];
             }
-            res += maxProfit;
         }
         return res;
     }
 
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
-        return sol2(difficulty, profit, worker);
+        return sol3(difficulty, profit, worker);
     }
 }
