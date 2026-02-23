@@ -14,6 +14,20 @@ class Solution {
         return sum;
     }
 
+    public boolean isPoss(int[][] mat, int threshold, int side) {
+        int r = mat.length, c = mat[0].length;
+        for (int i = 0; i + side - 1 < r; i++) {
+            for (int j = 0; j + side - 1 < c; j++) {
+                int sum = findSum(mat, i, j, side - 1);
+                if (sum <= threshold) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
     public int maxSideLength(int[][] mat, int threshold) {
         int r = mat.length, c = mat[0].length;
         for (int i = 0; i < r; i++) {
@@ -25,16 +39,26 @@ class Solution {
             }
         }
         int best = 0;
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                for (int k = best; k < Math.min(r - i, c - j); k++) {
-                    int sum = findSum(mat, i, j, k);
-                    if (sum <= threshold) {
-                        best = Math.max(best, k + 1);
-                    } else {
-                        break;
-                    }
-                }
+        // for (int i = 0; i < r; i++) {
+        //     for (int j = 0; j < c; j++) {
+        //         for (int k = best; k < Math.min(r - i, c - j); k++) {
+        //             int sum = findSum(mat, i, j, k);
+        //             if (sum <= threshold) {
+        //                 best = Math.max(best, k + 1);
+        //             } else {
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+        int l = 1, h = Math.min(r, c);
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if (isPoss(mat, threshold, m)) {
+                best = m;
+                l = m + 1;
+            } else {
+                h = m - 1;
             }
         }
         return best;
