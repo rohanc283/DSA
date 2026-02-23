@@ -82,7 +82,6 @@ class Solution {
         int res = 0;
         for (int w : worker) {
             int lowerBoundIdx = upperBound(jobs, w);
-            System.out.println(lowerBoundIdx);
             if (lowerBoundIdx != -1) {
                 res += maxProfit[lowerBoundIdx];
             }
