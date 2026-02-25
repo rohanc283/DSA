@@ -2,12 +2,12 @@ class Solution {
     private boolean isPoss(int[] nums, int maxOperations, int maxPenalty) {
         long totalOps = 0;
         for (int num : nums) {
-            totalOps += ((1L * num) / (1L * maxPenalty));
-            if (num % maxPenalty == 0) {
-                totalOps -= 1;
-            }
+            totalOps += (num - 1) / maxPenalty;
+
+            if (totalOps > maxOperations)
+                return false; 
         }
-        return totalOps <= maxOperations;
+        return true;
     }
 
     public int minimumSize(int[] nums, int maxOperations) {
