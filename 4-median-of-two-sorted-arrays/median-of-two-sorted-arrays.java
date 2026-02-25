@@ -54,8 +54,6 @@ class Solution {
                 j++;
                 k++;
             }
-
-            System.out.println(element1 + " " + element2);
         }
 
         while (i < m) {
