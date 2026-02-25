@@ -85,6 +85,35 @@ class Solution {
         return (element1 + element2) / 2.0;
     }
 
+    public double sol3(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        if (m > n) {
+            return sol3(nums2, nums1);
+        }
+        int t = m + n;
+        int p = (t + 1) / 2;
+        int l = 0, h = m;
+        while (l <= h) {
+            int px = l + (h - l) / 2; // from nums1
+            int py = p - px; // from nums2
+            int x1 = px > 0 ? nums1[px - 1] : Integer.MIN_VALUE;
+            int x2 = py > 0 ? nums2[py - 1] : Integer.MIN_VALUE;
+            int x3 = px < m ? nums1[px] : Integer.MAX_VALUE;
+            int x4 = py < n ? nums2[py] : Integer.MIN_VALUE;
+            if (x1 <= x4 && x2 <= x3) {
+                if (t % 2 != 0) {
+                    return Math.max(x1, x2);
+                }
+                return (Math.max(x1, x2) + Math.min(x3, x4)) / 2.0;
+            } else if (x1 > x4) {
+                l = m + 1;
+            } else {
+                h = m - 1;
+            }
+        }
+        return -1;
+    }
+
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         return sol2(nums1, nums2);
     }
