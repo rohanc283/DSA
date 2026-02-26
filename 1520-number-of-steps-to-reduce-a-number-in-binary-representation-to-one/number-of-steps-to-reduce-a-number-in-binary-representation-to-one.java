@@ -25,7 +25,25 @@ class Solution {
         return op;
     }
 
+    public int sol2(String s) {
+        int op = 0;
+        int carry = 0;
+        StringBuilder str = new StringBuilder(s);
+        while (!(str.length() == 1 && str.charAt(0) == '1')) {
+            int digit = (str.charAt(str.length() - 1) - '0') + carry;
+            if (digit != 1) {
+                op++;
+                str.deleteCharAt(str.length() - 1);
+            } else {
+                str.deleteCharAt(str.length() - 1);
+                carry = 1;
+                op += 2;
+            }
+        }
+        return op + carry;
+    }
+
     public int numSteps(String s) {
-        return sol1(s);
+        return sol2(s);
     }
 }
