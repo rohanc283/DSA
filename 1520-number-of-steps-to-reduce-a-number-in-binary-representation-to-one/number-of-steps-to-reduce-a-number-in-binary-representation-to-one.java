@@ -28,10 +28,8 @@ class Solution {
     public int sol2(String s) {
         int op = 0;
         int carry = 0;
-
         for (int i = s.length() - 1; i > 0; i--) {
             int digit = (s.charAt(i) - '0') + carry;
-
             if (digit == 1) {
                 op += 2;
                 carry = 1;
@@ -39,7 +37,6 @@ class Solution {
                 op += 1;
             }
         }
-
         return op + carry;
     }
 
