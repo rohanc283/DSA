@@ -45,6 +45,6 @@ class Solution {
     }
 
     public int minOperations(int[] nums) {
-        return sol2(nums, 3);
+        return sol1(nums, 3);
     }
 }
