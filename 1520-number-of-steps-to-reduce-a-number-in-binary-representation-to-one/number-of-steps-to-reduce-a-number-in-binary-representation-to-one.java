@@ -28,18 +28,18 @@ class Solution {
     public int sol2(String s) {
         int op = 0;
         int carry = 0;
-        StringBuilder str = new StringBuilder(s);
-        while (!(str.length() == 1 && str.charAt(0) == '1')) {
-            int digit = (str.charAt(str.length() - 1) - '0') + carry;
-            if (digit != 1) {
-                op++;
-                str.deleteCharAt(str.length() - 1);
-            } else {
-                str.deleteCharAt(str.length() - 1);
-                carry = 1;
+
+        for (int i = s.length() - 1; i > 0; i--) {
+            int digit = (s.charAt(i) - '0') + carry;
+
+            if (digit == 1) {
                 op += 2;
+                carry = 1;
+            } else {
+                op += 1;
             }
         }
+
         return op + carry;
     }
 
