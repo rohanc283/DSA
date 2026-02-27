@@ -23,7 +23,6 @@ class Solution {
             maxDq.addLast(i);
             if (maxDq.size() > 0)
                 res[resIdx++] = nums[maxDq.peekFirst()];
-
         }
 
         return res;
