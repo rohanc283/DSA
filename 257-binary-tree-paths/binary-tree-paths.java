@@ -19,13 +19,14 @@ class Solution {
     public void solve(TreeNode root, String curr) {
         if (root == null)
             return;
-        curr += root.val;
+
         if (root.left == null && root.right == null) {
-            res.add(curr);
+            res.add(curr + root.val);
+            return;
         }
-        curr += "->";
-        solve(root.left, curr);
-        solve(root.right, curr);
+
+        solve(root.left, curr + root.val + "->");
+        solve(root.right, curr + root.val + "->");
     }
 
     public List<String> binaryTreePaths(TreeNode root) {
