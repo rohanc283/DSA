@@ -16,24 +16,25 @@
 class Solution {
     public void swap(int[] nums, int i, int j) {
         int temp = nums[i];
-        nums[j] = nums[i];
-        nums[i] = temp;
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 
     public int minOperations(int[] nums) {
-        int[] nums2 = nums.clone();
-        Arrays.sort(nums2);
+        int[] sortedNums = nums.clone();
+        Arrays.sort(sortedNums);
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             map.put(nums[i], i);
         }
         int operations = 0;
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == nums2[i])
+            if (nums[i] == sortedNums[i])
                 continue;
-            int actualIdx = map.get(nums2[i]);
-            swap(nums, i, actualIdx);
+            int actualIdx = map.get(sortedNums[i]);
             map.put(nums[i], actualIdx);
+            map.put(sortedNums[i], i);
+            swap(nums, i, actualIdx);
             operations++;
         }
         return operations;
