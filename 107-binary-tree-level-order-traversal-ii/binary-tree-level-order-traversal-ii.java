@@ -37,9 +37,36 @@ class Solution {
         return res;
     }
 
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    public List<List<Integer>> sol1(TreeNode root) {
         List<List<Integer>> res = levelOrder(root);
         Collections.reverse(res);
         return res;
+    }
+
+    public List<List<Integer>> sol2(TreeNode root) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int s = queue.size();
+            List<Integer> curr = new ArrayList<>();
+            for (int i = 0; i < s; i++) {
+                TreeNode front = queue.poll();
+                curr.add(front.val);
+                if (front.left != null)
+                    queue.offer(front.left);
+                if (front.right != null)
+                    queue.offer(front.right);
+            }
+            res.add(0, curr);
+        }
+        return res;
+    }
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        return sol2(root);
     }
 }
