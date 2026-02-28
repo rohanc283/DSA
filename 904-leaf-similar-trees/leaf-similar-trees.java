@@ -26,17 +26,10 @@ class Solution {
     }
 
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
-        List<Integer> root1LeafNodeValues = new ArrayList<>();
-        List<Integer> root2LeafNodeValues = new ArrayList<>();
-        preorder(root1, root1LeafNodeValues);
-        preorder(root2, root2LeafNodeValues);
-        if (root1LeafNodeValues.size() != root2LeafNodeValues.size())
-            return false;
-        for (int i = 0; i < root2LeafNodeValues.size(); i++) {
-            if (!root1LeafNodeValues.get(i).equals(root2LeafNodeValues.get(i))) {
-                return false;
-            }
-        }
-        return true;
+        List<Integer> l1 = new ArrayList<>();
+        List<Integer> l2 = new ArrayList<>();
+        preorder(root1, l1);
+        preorder(root2, l2);
+        return l1.equals(l2);
     }
 }
