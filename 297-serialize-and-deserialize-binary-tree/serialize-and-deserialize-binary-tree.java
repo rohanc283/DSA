@@ -35,24 +35,25 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        int n = data.length();
-        if (n == 0)
+        if (data == null || data.isEmpty())
             return null;
-        String[] strList = data.split(",");
+
+        String[] nodes = data.split(",");
+        int n = nodes.length;
         Queue<TreeNode> queue = new ArrayDeque<>();
-        TreeNode root = new TreeNode(Integer.parseInt(strList[0]));
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
         queue.offer(root);
         int i = 0;
         while (!queue.isEmpty()) {
             TreeNode front = queue.poll();
             i++;
-            if (i < n && !strList[i].equals("N")) {
-                front.left = new TreeNode(Integer.parseInt(strList[i]));
+            if (i < n && !nodes[i].equals("N")) {
+                front.left = new TreeNode(Integer.parseInt(nodes[i]));
                 queue.offer(front.left);
             }
             i++;
-            if (i < n && !strList[i].equals("N")) {
-                front.right = new TreeNode(Integer.parseInt(strList[i]));
+            if (i < n && !nodes[i].equals("N")) {
+                front.right = new TreeNode(Integer.parseInt(nodes[i]));
                 queue.offer(front.right);
             }
         }
