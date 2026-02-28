@@ -17,7 +17,7 @@ class Solution {
     List<Integer> curr = new ArrayList<>();
     int[] res = new int[1];
 
-    private void solve(TreeNode root, int targetSum) {
+    private void solve1(TreeNode root, int targetSum) {
         if (root == null)
             return;
         curr.add(root.val);
@@ -29,13 +29,33 @@ class Solution {
                 res[0]++;
             }
         }
-        solve(root.left, targetSum);
-        solve(root.right, targetSum);
+        solve1(root.left, targetSum);
+        solve1(root.right, targetSum);
         curr.remove(n - 1);
     }
 
-    public int pathSum(TreeNode root, int targetSum) {
-        solve(root, targetSum);
+    public int sol1(TreeNode root, int targetSum) {
+        solve1(root, targetSum);
         return res[0];
+    }
+
+    Map<Long, Integer> prefix = new HashMap<>();
+
+    public int solve2(TreeNode root, int targetSum, long currSum) {
+        if (root == null)
+            return 0;
+
+        currSum += root.val;
+        int count = prefix.getOrDefault(currSum - targetSum, 0);
+        prefix.put(currSum, prefix.getOrDefault(currSum, 0) + 1);
+        count += solve2(root.left, targetSum, currSum);
+        count += solve2(root.right, targetSum, currSum);
+        prefix.put(currSum, prefix.get(currSum) - 1);
+        return count;
+    }
+
+    public int pathSum(TreeNode root, int targetSum) {
+        prefix.put(0L, 1);
+        return solve2(root, targetSum, 0);
     }
 }
