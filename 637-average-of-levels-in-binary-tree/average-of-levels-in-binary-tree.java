@@ -20,7 +20,6 @@ class Solution {
         queue.offer(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
-            boolean xFound = false, yFound = false;
             double sum = 0;
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
