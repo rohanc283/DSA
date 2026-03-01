@@ -19,10 +19,12 @@ class Solution {
     public void inorderTraversal(TreeNode root, int low, int high) {
         if (root == null)
             return;
-        inorderTraversal(root.left, low, high);
+        if (low <= root.val)
+            inorderTraversal(root.left, low, high);
         if (root.val >= low && root.val <= high)
             res += root.val;
-        inorderTraversal(root.right, low, high);
+        if (root.val <= high)
+            inorderTraversal(root.right, low, high);
     }
 
     public int rangeSumBST(TreeNode root, int low, int high) {
