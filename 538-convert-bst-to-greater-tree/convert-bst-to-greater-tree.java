@@ -23,7 +23,6 @@ class Solution {
         int val = root.val;
         root.val += sum;
         sum += val;
-        System.out.println(root.val + " " + sum);
         solve(root.left);
     }
 
