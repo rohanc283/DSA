@@ -9,55 +9,49 @@
  */
 public class Codec {
 
+    private void serializeHelper(TreeNode root, StringBuilder res) {
+        if (root == null)
+            return;
+        res.append(root.val);
+        if (root.left != null) {
+            res.append(',');
+            serializeHelper(root.left, res);
+        }
+
+        if (root.right != null) {
+            res.append(',');
+            serializeHelper(root.right, res);
+        }
+    }
+
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         StringBuilder res = new StringBuilder();
-        if (root == null)
-            return res.toString();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            int s = queue.size();
-            for (int i = 0; i < s; i++) {
-                TreeNode front = queue.poll();
-                if (front == null) {
-                    res.append('N');
-                } else {
-                    res.append(front.val);
-                    queue.offer(front.left);
-                    queue.offer(front.right);
-                }
-                res.append(',');
-            }
-        }
+        serializeHelper(root, res);
         return res.toString();
+    }
+
+    private TreeNode deSerializeHelper(String[] nodes, int[] idx, int maxi) {
+        if (idx[0] >= nodes.length)
+            return null;
+        int val = Integer.parseInt(nodes[idx[0]]);
+        if (val > maxi)
+            return null;
+        TreeNode root = new TreeNode(val);
+        idx[0]++;
+        root.left = deSerializeHelper(nodes, idx, val);
+        root.right = deSerializeHelper(nodes, idx, maxi);
+        return root;
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         if (data == null || data.isEmpty())
             return null;
-
+        int[] idx = new int[1];
         String[] nodes = data.split(",");
         int n = nodes.length;
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
-        queue.offer(root);
-        int i = 0;
-        while (!queue.isEmpty()) {
-            TreeNode front = queue.poll();
-            i++;
-            if (i < n && !nodes[i].equals("N")) {
-                front.left = new TreeNode(Integer.parseInt(nodes[i]));
-                queue.offer(front.left);
-            }
-            i++;
-            if (i < n && !nodes[i].equals("N")) {
-                front.right = new TreeNode(Integer.parseInt(nodes[i]));
-                queue.offer(front.right);
-            }
-        }
-        return root;
+        return deSerializeHelper(nodes, idx, Integer.MAX_VALUE);
     }
 }
 
