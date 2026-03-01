@@ -37,7 +37,7 @@ class Solution {
             return helper(root);
         }
         while (curr != null) {
-            if (curr.val >= key) {
+            if (key < curr.val) {
                 if (curr.left != null && curr.left.val == key) {
                     curr.left = helper(curr.left);
                     break;
