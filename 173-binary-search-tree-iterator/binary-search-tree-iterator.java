@@ -15,7 +15,7 @@
  */
 class BSTIterator {
 
-    Stack<TreeNode> stack;
+    Stack<TreeNode> stack = new Stack<>();
 
     private void pushLeft(TreeNode node) {
         while (node != null) {
@@ -25,7 +25,6 @@ class BSTIterator {
     }
 
     public BSTIterator(TreeNode root) {
-        stack = new Stack<>();
         pushLeft(root);
     }
 
