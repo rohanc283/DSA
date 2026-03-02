@@ -11,8 +11,8 @@ class Solution {
                 maxHeap.offer(diff);
             } else if (ladders > 0) {
                 if (!maxHeap.isEmpty() && maxHeap.peek() > diff) {
-                    bricks += maxHeap.poll(); // refund largest brick usage
-                    bricks -= diff; // use bricks for current
+                    bricks += maxHeap.poll();
+                    bricks -= diff;
                     maxHeap.offer(diff);
                 }
                 ladders--;
