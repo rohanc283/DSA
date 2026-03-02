@@ -8,8 +8,8 @@ class Solution {
             maxHeap.offer((int) Math.sqrt(maxi));
         }
         long res = 0;
-        while (!maxHeap.isEmpty()) {
-            res += maxHeap.poll();
+        for (int val : maxHeap) {
+            res += val;
         }
         return res;
     }
