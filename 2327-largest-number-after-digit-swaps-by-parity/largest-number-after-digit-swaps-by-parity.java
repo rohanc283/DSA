@@ -4,7 +4,7 @@ class Solution {
         PriorityQueue<Integer> oddMaxHeap = new PriorityQueue<>(Collections.reverseOrder());
         StringBuilder numStr = new StringBuilder(String.valueOf(num));
         for (int i = 0; i < numStr.length(); i++) {
-            Integer val = Integer.parseInt(String.valueOf(numStr.charAt(i)));
+            int val = numStr.charAt(i) - '0';
             if (val % 2 == 0) {
                 evenMaxHeap.offer(val);
             } else {
@@ -12,7 +12,7 @@ class Solution {
             }
         }
         for (int i = 0; i < numStr.length(); i++) {
-            Integer val = Integer.parseInt(String.valueOf(numStr.charAt(i)));
+            int val = numStr.charAt(i) - '0';
             if (val % 2 == 0) {
                 numStr.setCharAt(i, (char) (evenMaxHeap.poll() + '0'));
             } else {
