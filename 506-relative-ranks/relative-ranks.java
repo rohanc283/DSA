@@ -48,15 +48,15 @@ class Solution {
         String[] res = new String[n];
         for (int i = 0; i < n; i++) {
             int pos = map.get(score[i]);
-            if (pos == n - 1) {
+            int rank = n - pos;
+            if (rank == 1)
                 res[i] = "Gold Medal";
-            } else if (pos == n - 2) {
+            else if (rank == 2)
                 res[i] = "Silver Medal";
-            } else if (pos == n - 3) {
+            else if (rank == 3)
                 res[i] = "Bronze Medal";
-            } else {
-                res[i] = String.valueOf(n - pos);
-            }
+            else
+                res[i] = String.valueOf(rank);
         }
         return res;
     }
