@@ -7,7 +7,7 @@ class Solution {
         for (int i = 0; i < k; i++) {
             int top = pq.poll();
             res += top;
-            int next = (int) Math.ceil((1.0 * top) / (1.0 * 3));
+            int next = (top + 2) / 3;
             pq.offer(next);
         }
         return res;
