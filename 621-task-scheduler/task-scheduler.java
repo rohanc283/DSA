@@ -36,10 +36,22 @@ class Solution {
     }
 
     public int sol2(char[] tasks, int n) {
-        return 0;
+        int len = tasks.length;
+        int[] counts = new int[26];
+        int maxi = 0, count = 0;
+        for (char task : tasks) {
+            counts[task - 'A']++;
+            if (counts[task - 'A'] > maxi) {
+                maxi = counts[task - 'A'];
+                count = 1;
+            } else if (counts[task - 'A'] == maxi) {
+                count++;
+            }
+        }
+        return Math.max(len, (maxi - 1) * (n + 1) + count);
     }
 
     public int leastInterval(char[] tasks, int n) {
-        return sol1(tasks, n);
+        return sol2(tasks, n);
     }
 }
