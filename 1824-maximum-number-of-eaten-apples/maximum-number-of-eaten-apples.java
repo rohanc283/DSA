@@ -1,7 +1,5 @@
 class Solution {
     public int eatenApples(int[] apples, int[] days) {
-
-        // Min heap sorted by expiry day
         PriorityQueue<int[]> pq = new PriorityQueue<>(
                 (a, b) -> a[1] - b[1]);
 
