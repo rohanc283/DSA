@@ -1,6 +1,6 @@
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[2] - a[2]);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[2], a[2]));
         for (int[] point : points) {
             int x = point[0], y = point[1];
             int d = (x * x) + (y * y);
