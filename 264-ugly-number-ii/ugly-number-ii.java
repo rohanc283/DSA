@@ -50,6 +50,6 @@ class Solution {
     }
 
     public int nthUglyNumber(int n) {
-        return sol1(n);
+        return sol2(n);
     }
 }
