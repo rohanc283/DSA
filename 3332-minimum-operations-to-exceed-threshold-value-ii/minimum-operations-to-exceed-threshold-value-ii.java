@@ -5,10 +5,8 @@ class Solution {
             pq.offer(1L * num);
         }
         int operations = 0;
-        while (pq.size() > 1) {
+        while (pq.size() > 1 && pq.peek() < k) {
             long x = pq.poll(), y = pq.poll();
-            if (x >= k)
-                return operations;
             pq.offer(Math.min(x, y) * 2 + Math.max(x, y));
             operations++;
         }
