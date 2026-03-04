@@ -7,17 +7,14 @@ class Solution {
             pq.offer(1.0 * num);
         }
         double target = sum / 2;
-        int op = 0;
-        while (!pq.isEmpty()) {
+        int operations = 0;
+        while (sum > target) {
             double top = pq.poll();
-            sum -= top;
-            top /= 2.0;
-            sum += top;
-            op++;
-            if (sum <= target)
-                break;
-            pq.offer(top);
+            double half = top / 2.0;
+            sum -= half;
+            pq.offer(half);
+            operations++;
         }
-        return op;
+        return operations;
     }
 }
