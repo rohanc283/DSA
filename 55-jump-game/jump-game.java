@@ -22,7 +22,17 @@ class Solution {
         return solve(nums, 0, nums.length);
     }
 
+    public boolean sol2(int[] nums) {
+        int maxReachable = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > maxReachable)
+                return false;
+            maxReachable = Math.max(maxReachable, i + nums[i]);
+        }
+        return true;
+    }
+
     public boolean canJump(int[] nums) {
-        return sol1(nums);
+        return sol2(nums);
     }
 }
