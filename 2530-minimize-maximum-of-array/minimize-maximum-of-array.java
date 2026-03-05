@@ -15,19 +15,29 @@ class Solution {
     }
 
     public int minimizeArrayValue(int[] nums) {
-        int l = 0, h = 0;
-        for (int num : nums)
-            h = Math.max(h, num);
-        int res = -1;
-        while (l <= h) {
-            int m = l + (h - l) / 2;
-            if (isPoss(nums, m)) {
-                res = m;
-                h = m - 1;
-            } else {
-                l = m + 1;
-            }
+        // int l = 0, h = 0;
+        // for (int num : nums)
+        //     h = Math.max(h, num);
+        // int res = -1;
+        // while (l <= h) {
+        //     int m = l + (h - l) / 2;
+        //     if (isPoss(nums, m)) {
+        //         res = m;
+        //         h = m - 1;
+        //     } else {
+        //         l = m + 1;
+        //     }
+        // }
+        // return res;
+        long sum = 0;
+        int ans = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            int avg = (int) Math.ceil((double) sum / (i + 1));
+            ans = Math.max(ans, avg);
         }
-        return res;
+
+        return ans;
     }
 }
