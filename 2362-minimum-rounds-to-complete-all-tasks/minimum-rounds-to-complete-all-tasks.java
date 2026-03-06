@@ -1,22 +1,15 @@
 class Solution {
     public int minimumRounds(int[] tasks) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int task : tasks) {
-            map.put(task, map.getOrDefault(task, 0) + 1);
-        }
+        Map<Integer, Integer> freq = new HashMap<>();
+        
+        for (int t : tasks)
+            freq.put(t, freq.getOrDefault(t, 0) + 1);
+
         int rounds = 0;
-        for (Integer key : map.keySet()) {
-            int val = map.get(key);
-            while (val > 1) {
-                rounds++;
-                if (val % 3 == 0) {
-                    val -= 3;
-                } else {
-                    val -= 2;
-                }
-            }
-            if (val != 0)
+        for (int f : freq.values()) {
+            if (f == 1)
                 return -1;
+            rounds += (f + 2) / 3;
         }
         return rounds;
     }
