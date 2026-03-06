@@ -1,24 +1,23 @@
 class Solution {
     public List<Integer> partitionLabels(String s) {
-        int[] freq = new int[26];
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            freq[c - 'a'] = i;
-        }
 
-        int maxReachable = 0;
-        int start = 0;
+        int[] last = new int[26];
+
+        for (int i = 0; i < s.length(); i++)
+            last[s.charAt(i) - 'a'] = i;
+
+        int start = 0, end = 0;
         List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            maxReachable = Math.max(maxReachable, freq[c - 'a']);
-            if (i == maxReachable) {
-                res.add(maxReachable - start + 1);
+
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, last[s.charAt(i) - 'a']);
+
+            if (i == end) {
+                res.add(end - start + 1);
                 start = i + 1;
-                maxReachable = i + 1;
             }
         }
+
         return res;
     }
 }
