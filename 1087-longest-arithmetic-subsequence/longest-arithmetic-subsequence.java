@@ -9,11 +9,8 @@ class Solution {
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 int gap = nums[i] - nums[j];
-                if (dp.get(j).getOrDefault(gap, 0) > 0) {
-                    dp.get(i).put(gap, 1 + dp.get(j).get(gap));
-                } else {
-                    dp.get(i).put(gap, 1);
-                }
+                int len = dp.get(j).getOrDefault(gap, 0);
+                dp.get(i).put(gap, 1 + len);
                 ans = Math.max(ans, dp.get(i).get(gap));
             }
         }
