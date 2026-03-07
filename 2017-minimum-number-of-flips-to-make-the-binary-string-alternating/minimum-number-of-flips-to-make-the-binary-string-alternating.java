@@ -45,7 +45,51 @@ class Solution {
         return res;
     }
 
+    private int sol2(String s) {
+        int n = s.length();
+
+        int res = Integer.MAX_VALUE;
+        int flip1 = 0, flip2 = 0;
+
+        int i = 0, j = 0;
+
+        while (j < 2 * n) {
+
+            char ch = s.charAt(j % n);
+
+            char alt1 = (j % 2 == 0) ? '0' : '1';
+            char alt2 = (j % 2 == 0) ? '1' : '0';
+
+            if (ch != alt1)
+                flip1++;
+            if (ch != alt2)
+                flip2++;
+
+            if (j - i + 1 > n) {
+                char left = s.charAt(i % n);
+
+                char altLeft1 = (i % 2 == 0) ? '0' : '1';
+                char altLeft2 = (i % 2 == 0) ? '1' : '0';
+
+                if (left != altLeft1)
+                    flip1--;
+                if (left != altLeft2)
+                    flip2--;
+
+                i++;
+            }
+
+            if (j - i + 1 == n) {
+                res = Math.min(res, Math.min(flip1, flip2));
+            }
+
+            j++;
+        }
+
+        return res;
+    }
+
     public int minFlips(String s) {
-        return sol1(s);
+        return sol2(s);
     }
 }
