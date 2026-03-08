@@ -5,6 +5,8 @@ class Solution {
     private int solve(int idx, int searchCost, int maxSoFar) {
         if (idx >= N)
             return searchCost == K ? 1 : 0;
+        if (searchCost > K)
+            return 0;
         if (dp[idx][searchCost][maxSoFar + 1] != null)
             return dp[idx][searchCost][maxSoFar + 1];
         int ans = 0;
@@ -21,7 +23,7 @@ class Solution {
         N = n;
         M = m;
         K = k;
-        dp = new Integer[N + 2][N + 2][M + 2];
+        dp = new Integer[N + 1][K + 1][M + 2];
         return solve(0, 0, -1);
     }
 }
