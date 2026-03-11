@@ -9,7 +9,7 @@ class Solution {
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 int mod = (nums[i] + nums[j]) % k;
-                dp[mod][i] = Math.max(dp[mod][1], 1 + dp[mod][j]);
+                dp[mod][i] = Math.max(dp[mod][i], 1 + dp[mod][j]);
                 maxLen = Math.max(maxLen, dp[mod][i]);
             }
         }
