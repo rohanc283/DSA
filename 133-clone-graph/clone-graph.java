@@ -22,7 +22,7 @@ class Solution {
 
     Map<Node, Node> map = new HashMap<>();
 
-    private Node sol1(Node node) {
+    private Node DFS(Node node) {
         if (node == null)
             return null;
 
@@ -38,7 +38,28 @@ class Solution {
         return clone;
     }
 
+    private Node BFS(Node node) {
+        if (node == null)
+            return null;
+        Map<Node, Node> map = new HashMap<>();
+        Queue<Node> queue = new ArrayDeque<>();
+        Node clone = new Node(node.val);
+        map.put(node, clone);
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            Node curr = queue.poll();
+            for (Node neighbor : curr.neighbors) {
+                if (!map.containsKey(neighbor)) {
+                    map.put(neighbor, new Node(neighbor.val));
+                    queue.offer(neighbor);
+                }
+                map.get(curr).neighbors.add(map.get(neighbor));
+            }
+        }
+        return clone;
+    }
+
     public Node cloneGraph(Node node) {
-        return sol1(node);
+        return BFS(node);
     }
 }
