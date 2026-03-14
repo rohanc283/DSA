@@ -22,7 +22,7 @@ class Solution {
 
     Map<Node, Node> map = new HashMap<>();
 
-    public Node cloneGraph(Node node) {
+    private Node sol1(Node node) {
         if (node == null)
             return null;
 
@@ -36,5 +36,9 @@ class Solution {
             clone.neighbors.add(cloneGraph(neighbour));
         }
         return clone;
+    }
+
+    public Node cloneGraph(Node node) {
+        return sol1(node);
     }
 }
