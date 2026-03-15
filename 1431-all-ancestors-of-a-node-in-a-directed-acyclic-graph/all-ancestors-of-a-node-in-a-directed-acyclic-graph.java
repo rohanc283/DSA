@@ -64,7 +64,52 @@ class Solution {
         return result;
     }
 
+    private List<List<Integer>> sol3(int n, int[][] edges) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        int[] indegree = new int[n];
+        for (int[] e : edges) {
+            int u = e[0], v = e[1];
+            graph.get(u).add(v);
+            indegree[v]++;
+        }
+        Queue<Integer> queue = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        List<Integer> topo = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            topo.add(u);
+            for (int nei : graph.get(u)) {
+                indegree[nei]--;
+                if (indegree[nei] == 0) {
+                    queue.offer(nei);
+                }
+            }
+        }
+        List<TreeSet<Integer>> mapping = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            mapping.add(new TreeSet<>());
+        }
+        for (int node : topo) {
+            for (int nei : graph.get(node)) {
+                mapping.get(nei).add(node);
+                mapping.get(nei).addAll(mapping.get(node));
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            result.add(new ArrayList<>(mapping.get(i)));
+        }
+        return result;
+    }
+
     public List<List<Integer>> getAncestors(int n, int[][] edges) {
-        return sol2(n, edges);
+        return sol3(n, edges);
     }
 }
