@@ -1,17 +1,18 @@
 class Solution {
-    private void DFS(int ancestor, List<List<Integer>> graph, int curr, List<List<Integer>> result, boolean[] visited) {
+    private void DFSSol1(int ancestor, List<List<Integer>> graph, int curr, List<List<Integer>> result,
+            boolean[] visited) {
         for (int nei : graph.get(curr)) {
             if (!visited[nei]) {
                 visited[nei] = true;
                 if (result.get(nei).isEmpty() || result.get(nei).get(result.get(nei).size() - 1) != ancestor) {
                     result.get(nei).add(ancestor);
                 }
-                DFS(ancestor, graph, nei, result, visited);
+                DFSSol1(ancestor, graph, nei, result, visited);
             }
         }
     }
 
-    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+    private List<List<Integer>> sol1(int n, int[][] edges) {
         List<List<Integer>> result = new ArrayList<>();
         List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -25,8 +26,13 @@ class Solution {
         }
         for (int i = 0; i < n; i++) {
             boolean[] visited = new boolean[n];
-            DFS(i, graph, i, result, visited);
+            DFSSol1(i, graph, i, result, visited);
         }
         return result;
+    }
+    
+
+    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+        return sol1(n, edges);
     }
 }
