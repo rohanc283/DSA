@@ -1,6 +1,49 @@
 class Solution {
 
-    private List<Integer> topoSort(int[][] edges, int k) {
+    private boolean dfs(int node, List<List<Integer>> graph, int[] state, List<Integer> topo) {
+        if (state[node] == 1)
+            return false;
+
+        if (state[node] == 2)
+            return true;
+
+        state[node] = 1;
+
+        for (int nei : graph.get(node)) {
+            if (!dfs(nei, graph, state, topo))
+                return false;
+        }
+
+        state[node] = 2;
+        topo.add(node);
+        return true;
+    }
+
+    private List<Integer> topoSortDFS(int[][] edges, int k) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < k; i++)
+            graph.add(new ArrayList<>());
+
+        for (int[] e : edges) {
+            int u = e[0] - 1;
+            int v = e[1] - 1;
+            graph.get(u).add(v);
+        }
+
+        int[] state = new int[k];
+        List<Integer> topo = new ArrayList<>();
+
+        for (int i = 0; i < k; i++) {
+            if (state[i] == 0) {
+                if (!dfs(i, graph, state, topo))
+                    return new ArrayList<>();
+            }
+        }
+        Collections.reverse(topo);
+        return topo;
+    }
+
+    private List<Integer> topoSortBFS(int[][] edges, int k) {
         List<List<Integer>> graph = new ArrayList<>();
         int[] indegree = new int[k];
 
@@ -40,8 +83,8 @@ class Solution {
 
     public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
 
-        List<Integer> topoRow = topoSort(rowConditions, k);
-        List<Integer> topoCol = topoSort(colConditions, k);
+        List<Integer> topoRow = topoSortBFS(rowConditions, k);
+        List<Integer> topoCol = topoSortBFS(colConditions, k);
 
         if (topoRow.isEmpty() || topoCol.isEmpty())
             return new int[0][0];
