@@ -1,25 +1,30 @@
 class Solution {
     public int divide(int dividend, int divisor) {
-        if (divisor == dividend)
-            return 1;
         boolean sign = true;
-        if (dividend < 0 && divisor > 0)
+        if (dividend < 0 && divisor >= 0)
             sign = false;
-        if (dividend > 0 && divisor < 0)
+        if (dividend >= 0 && divisor < 0)
             sign = false;
-        long dd = Math.abs((long) dividend), dv = Math.abs((long) divisor);
-        int res = 0;
+        long dd = dividend, dv = divisor;
+        dd = Math.abs(dd);
+        dv = Math.abs(dv);
+        if (dd == dv)
+            return sign ? 1 : -1;
+        long ans = 0;
+        System.out.println(dd + " " + dv);
         while (dd >= dv) {
             int cnt = 0;
-            while (dd >= dv << (1 + cnt)) {
+            while (dd >= (dv << (cnt + 1))) {
                 cnt++;
             }
+
             dd -= (dv << cnt);
-            res += (1 << cnt);
+            ans += (1 << cnt);
         }
-        if (res == (1 << 31)) {
-            return sign ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        System.out.println(ans);
+        if (ans == Integer.MIN_VALUE) {
+            return (int) (sign ? Integer.MAX_VALUE : Integer.MIN_VALUE);
         }
-        return sign ? res : -res;
+        return (int) (sign ? ans : -ans);
     }
 }
