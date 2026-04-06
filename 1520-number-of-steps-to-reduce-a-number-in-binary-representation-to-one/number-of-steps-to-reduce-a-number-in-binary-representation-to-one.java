@@ -1,46 +1,34 @@
 class Solution {
-    public int sol1(String s) {
-
-        int op = 0;
-        StringBuilder str = new StringBuilder(s);
-        while (!(str.length() == 1 && str.charAt(0) == '1')) {
-            if (str.charAt(str.length() - 1) == '0') {
-                str.deleteCharAt(str.length() - 1);
-            } else {
-                int j = str.length() - 1;
-
-                while (j >= 0 && str.charAt(j) == '1') {
-                    str.setCharAt(j, '0');
-                    j--;
-                }
-
-                if (j < 0) {
-                    str.insert(0, '1');
-                } else {
-                    str.setCharAt(j, '1');
-                }
-            }
-            op++;
+    public String addBinary(String a, String b) {
+        char[] digits1 = a.toCharArray();
+        char[] digits2 = b.toCharArray();
+        int n1 = digits1.length, n2 = digits2.length;
+        int carry = 0;
+        StringBuilder res = new StringBuilder();
+        int i = n1 - 1, j = n2 - 1;
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int d1 = i < 0 ? 0 : digits1[i--] - '0';
+            int d2 = j < 0 ? 0 : digits2[j--] - '0';
+            int d = carry ^ d1 ^ d2;
+            carry = (carry & (d1 ^ d2)) >= 1 || (d1 & d2) >= 1 ? 1 : 0;
+            res.append((char) (d + '0'));
         }
-        return op;
+        return res.reverse().toString();
     }
 
-    public int sol2(String s) {
-        int op = 0;
-        int carry = 0;
-        for (int i = s.length() - 1; i > 0; i--) {
-            int digit = (s.charAt(i) - '0') + carry;
-            if (digit == 1) {
-                op += 2;
-                carry = 1;
-            } else {
-                op += 1;
-            }
+    private int sol1(String s) {
+        int n = s.length();
+        if (n == 1)
+            return 0;
+        char last = s.charAt(n - 1);
+        if (last == '0') {
+            return 1 + sol1(s.substring(0, n - 1));
+        } else {
+            return 1 + sol1(addBinary(s, "1"));
         }
-        return op + carry;
     }
 
     public int numSteps(String s) {
-        return sol2(s);
+        return sol1(s);
     }
 }
