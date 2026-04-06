@@ -11,7 +11,6 @@ class Solution {
         if (dd == dv)
             return sign ? 1 : -1;
         long ans = 0;
-        System.out.println(dd + " " + dv);
         while (dd >= dv) {
             int cnt = 0;
             while (dd >= (dv << (cnt + 1))) {
@@ -21,7 +20,6 @@ class Solution {
             dd -= (dv << cnt);
             ans += (1 << cnt);
         }
-        System.out.println(ans);
         if (ans == Integer.MIN_VALUE) {
             return (int) (sign ? Integer.MAX_VALUE : Integer.MIN_VALUE);
         }
