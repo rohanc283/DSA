@@ -11,9 +11,8 @@ class Solution {
                     xor |= (1L << i);
                 }
             } else {
-                // 🔥 USE CURRENT STATE
-                long xor1 = xor ^ (1L << i); // flip
-                long xor2 = xor; // no flip
+                long xor1 = xor ^ (1L << i);
+                long xor2 = xor;
 
                 long A1 = a ^ xor1;
                 long B1 = b ^ xor1;
