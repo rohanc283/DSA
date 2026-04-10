@@ -1,29 +1,30 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> freq = new HashMap<>();
-        int maxi = 0;
+        Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
-            maxi = Math.max(maxi, freq.get(num));
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
+        int maxi = 0;
+        for (Integer val : map.values())
+            maxi = Math.max(maxi, val);
         List<List<Integer>> bucket = new ArrayList<>();
-        for (int i = 0; i <= maxi; i++) {
+        for (int i = 0; i <= maxi; i++)
             bucket.add(new ArrayList<>());
+        for (Integer key : map.keySet()) {
+            int freq = map.get(key);
+            bucket.get(freq).add(key);
         }
-
-        for (Integer key : freq.keySet()) {
-            int val = freq.get(key);
-            bucket.get(val).add(key);
-        }
-        int[] res = new int[k];
-        int resIdx = 0;
+        List<Integer> res = new ArrayList<>();
         for (int i = maxi; i >= 0; i--) {
-            for (int j = bucket.get(i).size() - 1; j >= 0; j--) {
-                res[resIdx++] = bucket.get(i).get(j);
-                if (resIdx >= k)
-                    return res;
+            for (Integer num : bucket.get(i)) {
+                res.add(num);
+                k--;
+                if (k == 0)
+                    break;
             }
+            if (k == 0)
+                break;
         }
-        return res;
+        return res.stream().mapToInt(Integer::intValue).toArray();
     }
 }
