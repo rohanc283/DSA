@@ -1,54 +1,49 @@
 class Solution {
-    List<Integer> res = new ArrayList<>();
-
-    public void merge(int[][] nums, int s, int m, int e) {
-        int i = s, j = m + 1;
-        int[][] temp = new int[e - s + 2][2];
-        int smaller = 0;
+    private void merge(int arr[][], int l, int m, int r, int[] res) {
+        int i = l, n1 = m, j = m + 1, n2 = r;
+        int[][] temp = new int[r - l + 1][2];
         int k = 0;
-        while (i <= m && j <= e) {
-            if (nums[i][0] <= nums[j][0]) {
-                temp[k++] = nums[i];
-                res.set(nums[i][1], res.get(nums[i][1]) + smaller);
-                i++;
+        int smaller = 0;
+        while (i <= n1 && j <= n2) {
+            if (arr[i][0] <= arr[j][0]) {
+                res[arr[i][1]] += smaller;
+                temp[k++] = arr[i++];
             } else {
-                temp[k++] = nums[j++];
                 smaller++;
+                temp[k++] = arr[j++];
             }
         }
-        while (j <= e) {
-            temp[k++] = nums[j++];
-            smaller++;
+        while (i <= n1) {
+            res[arr[i][1]] += smaller;
+            temp[k++] = arr[i++];
         }
-        while (i <= m) {
-            temp[k++] = nums[i];
-            res.set(nums[i][1], res.get(nums[i][1]) + smaller);
-            i++;
+        while (j <= n2) {
+            temp[k++] = arr[j++];
         }
         k = 0;
-        for (int z = s; z <= e; z++) {
-            nums[z] = temp[k++];
+        for (int s = l; s <= r; s++) {
+            arr[s] = temp[k++];
         }
     }
 
-    public void mergeSort(int[][] nums, int s, int e) {
-        if (s >= e)
+    private void mergeSort(int arr[][], int l, int r, int[] res) {
+        if (l >= r)
             return;
-        int m = s + (e - s) / 2;
-        mergeSort(nums, s, m);
-        mergeSort(nums, m + 1, e);
-        merge(nums, s, m, e);
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m, res);
+        mergeSort(arr, m + 1, r, res);
+        merge(arr, l, m, r, res);
     }
 
     public List<Integer> countSmaller(int[] nums) {
         int n = nums.length;
         int[][] numsWithIndex = new int[n][2];
+        int[] res = new int[n];
         for (int i = 0; i < n; i++) {
-            res.add(0);
             numsWithIndex[i][0] = nums[i];
             numsWithIndex[i][1] = i;
         }
-        mergeSort(numsWithIndex, 0, n - 1);
-        return res;
+        mergeSort(numsWithIndex, 0, n - 1, res);
+        return Arrays.stream(res).boxed().collect(Collectors.toList());
     }
 }
