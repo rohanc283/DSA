@@ -2,20 +2,19 @@ class Solution {
     public int hIndex(int[] citations) {
         int n = citations.length;
         int[] bucket = new int[n + 1];
-        for (int citation : citations) {
-            if (citation > n) {
+        for (int num : citations) {
+            if (num >= n) {
                 bucket[n]++;
             } else {
-                bucket[citation]++;
+                bucket[num]++;
             }
         }
-
-        int res = 0;
+        int cit = 0;
         for (int i = n; i >= 0; i--) {
-            res += bucket[i];
-            if (res >= i)
+            cit += bucket[i];
+            if (cit >= i)
                 return i;
         }
-        return res;
+        return 0;
     }
 }
