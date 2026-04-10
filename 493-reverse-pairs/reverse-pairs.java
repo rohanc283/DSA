@@ -1,49 +1,49 @@
 class Solution {
-    public void merge(int[] nums, int s, int m, int e) {
-        int i = s, j = m + 1;
-        int[] temp = new int[e - s + 2];
+    void merge(int arr[], int l, int m, int r) {
+        int i = l, n1 = m, j = m + 1, n2 = r;
+        int[] temp = new int[r - l + 1];
         int k = 0;
-        while (i <= m && j <= e) {
-            if (nums[i] <= nums[j]) {
-                temp[k++] = nums[i++];
+        while (i <= n1 && j <= n2) {
+            if (arr[i] < arr[j]) {
+                temp[k++] = arr[i++];
             } else {
-                temp[k++] = nums[j++];
+                temp[k++] = arr[j++];
             }
         }
-        while (i <= m) {
-            temp[k++] = nums[i++];
+        while (i <= n1) {
+            temp[k++] = arr[i++];
         }
-        while (j <= e) {
-            temp[k++] = nums[j++];
+        while (j <= n2) {
+            temp[k++] = arr[j++];
         }
         k = 0;
-        for (int z = s; z <= e; z++) {
-            nums[z] = temp[k++];
+        for (int s = l; s <= r; s++) {
+            arr[s] = temp[k++];
         }
     }
 
-    public void mergeSort(int[] nums, int s, int e, int[] res) {
-        if (s >= e)
+    void mergeSort(int arr[], int l, int r, int[] ans) {
+        if (l >= r)
             return;
-        int m = s + (e - s) / 2;
-        mergeSort(nums, s, m, res);
-        mergeSort(nums, m + 1, e, res);
-        int i = s, j = m + 1;
-        while (i <= m && j <= e) {
-            if ((long) nums[i] > 2L * nums[j]) {
-                res[0] += (m - i + 1);
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m, ans);
+        mergeSort(arr, m + 1, r, ans);
+        int i = l, j = m + 1;
+        while (i <= m && j <= r) {
+            if ((1.0 * arr[i]) / 2 > arr[j] * 1.0) {
+                ans[0] += (m - i + 1);
                 j++;
             } else {
                 i++;
             }
         }
-        merge(nums, s, m, e);
+        merge(arr, l, m, r);
     }
 
     public int reversePairs(int[] nums) {
+        int[] ans = new int[1];
         int n = nums.length;
-        int[] res = new int[1];
-        mergeSort(nums, 0, n - 1, res);
-        return res[0];
+        mergeSort(nums, 0, n - 1, ans);
+        return ans[0];
     }
 }
