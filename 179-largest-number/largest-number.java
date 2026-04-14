@@ -1,20 +1,23 @@
 class Solution {
     public String largestNumber(int[] nums) {
-        int n = nums.length;
-        String[] strList = new String[n];
-        for (int i = 0; i < n; i++) {
-            strList[i] = String.valueOf(nums[i]);
+        boolean allZero = true;
+        for (int num : nums) {
+            if (num != 0) {
+                allZero = false;
+                break;
+            }
         }
-
-        Arrays.sort(strList, (a, b) -> {
-            String ab = a + b;
-            String ba = b + a;
-            return ba.compareTo(ab);
-        });
-
-        if (strList[0].equals("0"))
+        if (allZero)
             return "0";
-
-        return String.join("", strList);
+        return Arrays.stream(nums).boxed().sorted((a, b) -> {
+            String x = a + "" + b;
+            String y = b + "" + a;
+            int v = x.compareTo(y);
+            if (v < 0)
+                return 1;
+            else if (v == 0)
+                return 0;
+            return -1;
+        }).map(String::valueOf).collect(Collectors.joining());
     }
 }
