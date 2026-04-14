@@ -7,23 +7,16 @@ class Solution {
 
     public int[] sortArrayByParityII(int[] nums) {
         int even = 0, odd = 1;
-        int i = 0;
         int n = nums.length;
-        while (i < n) {
-            if (i % 2 == 0) {
-                if (nums[i] % 2 == 0) {
-                    i++;
-                    continue;
-                }
-                swap(nums, i, odd);
+        while (even < n && odd < n) {
+            if (nums[even] % 2 == 0) {
+                even += 2;
+            } else if (nums[odd] % 2 != 0) {
                 odd += 2;
             } else {
-                if (nums[i] % 2 != 0) {
-                    i++;
-                    continue;
-                }
-                swap(nums, i, even);
+                swap(nums, even, odd);
                 even += 2;
+                odd += 2;
             }
         }
         return nums;
