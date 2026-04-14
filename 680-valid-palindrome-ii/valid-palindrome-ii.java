@@ -1,22 +1,22 @@
 class Solution {
-    private boolean isPalindrome(String s, int l, int r) {
-        while (l < r) {
-            if (s.charAt(l++) != s.charAt(r--))
+    private boolean isPalindrome(String s, int i, int j) {
+        while (i < j) {
+            if (s.charAt(i++) != s.charAt(j--))
                 return false;
         }
         return true;
     }
 
     public boolean validPalindrome(String s) {
-        int l = 0, r = s.length() - 1;
-
-        while (l < r) {
-            if (s.charAt(l) != s.charAt(r)) {
-                return isPalindrome(s, l + 1, r)
-                        || isPalindrome(s, l, r - 1);
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) == s.charAt(j)) {
+                i++;
+                j--;
+                continue;
+            } else {
+                return isPalindrome(s, i + 1, j) || isPalindrome(s, i, j - 1);
             }
-            l++;
-            r--;
         }
         return true;
     }
