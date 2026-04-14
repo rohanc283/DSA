@@ -6,17 +6,10 @@ class Solution {
         while (i < j) {
             leftMax = Math.max(leftMax, height[i]);
             rightMax = Math.max(rightMax, height[j]);
-            int level = Math.min(leftMax, rightMax);
-            if (level - height[i] >= 0) {
-                water += level - height[i];
-            }
-            if (level - height[j] >= 0) {
-                water += level - height[j];
-            }
-            if (leftMax <= rightMax)
-                i++;
-            else if (rightMax < leftMax)
-                j--;
+            if (leftMax < rightMax)
+                water += leftMax - height[i++];
+            else
+                water += rightMax - height[j--];
         }
         return water;
     }
