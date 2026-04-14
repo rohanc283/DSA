@@ -2,32 +2,24 @@ class Solution {
     public String rankTeams(String[] votes) {
         if (votes.length == 1)
             return votes[0];
-
-        int voteLength = votes[0].length();
-        int[][] rank = new int[26][voteLength];
-
+        Character[] teams = votes[0].chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+        int n = teams.length;
+        int[][] rankings = new int[26][n];
         for (String vote : votes) {
-            for (int i = 0; i < voteLength; i++) {
-                rank[vote.charAt(i) - 'A'][i]++;
+            for (int i = 0; i < n; i++) {
+                char team = vote.charAt(i);
+                rankings[team - 'A'][i]++;
             }
         }
-
-        Character[] teams = votes[0].chars()
-                .mapToObj(c -> (char) c)
-                .toArray(Character[]::new);
-
         Arrays.sort(teams, (a, b) -> {
-            for (int i = 0; i < voteLength; i++) {
-                if (rank[a - 'A'][i] != rank[b - 'A'][i]) {
-                    return rank[b - 'A'][i] - rank[a - 'A'][i];
-                }
+            int i = 0;
+            while (i < n && rankings[a - 'A'][i] == rankings[b - 'A'][i])
+                i++;
+            if (i < n) {
+                return rankings[b - 'A'][i] - rankings[a - 'A'][i];
             }
-            return a - b;
+            return Integer.compare(a - 'A', b - 'A');
         });
-
-        StringBuilder sb = new StringBuilder();
-        for (char c : teams)
-            sb.append(c);
-        return sb.toString();
+        return Arrays.stream(teams).map(String::valueOf).collect(Collectors.joining());
     }
 }
