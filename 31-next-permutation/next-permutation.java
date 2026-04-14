@@ -1,37 +1,32 @@
 class Solution {
     private void swap(int[] nums, int i, int j) {
-        int t = nums[i];
+        int temp = nums[i];
         nums[i] = nums[j];
-        nums[j] = t;
+        nums[j] = temp;
     }
 
-    public void reverse(int[] nums, int s, int e) {
-        while (s < e) {
-            swap(nums, s++, e--);
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
         }
     }
 
     public void nextPermutation(int[] nums) {
-        int breakPoint = -1, n = nums.length;
-        for (int i = n - 2; i >= 0; i--) {
-            if (nums[i] < nums[i + 1]) {
-                breakPoint = i;
-                break;
-            }
-        }
-
-        if (breakPoint == -1) {
-            reverse(nums, 0, n - 1);
+        int n = nums.length;
+        int i = n - 1;
+        while (i > 0 && nums[i - 1] >= nums[i])
+            i--;
+        if (i == 0) {
+            reverse(nums, i, n - 1);
             return;
         }
-
-        for (int i = n - 1; i >= 0; i--) {
-            if (nums[i] > nums[breakPoint]) {
-                swap(nums, i, breakPoint);
-                break;
-            }
-        }
-
-        reverse(nums, breakPoint + 1, n - 1);
+        int changingPos = i - 1;
+        i = n - 1;
+        while (i > changingPos && nums[i] <= nums[changingPos])
+            i--;
+        swap(nums, changingPos, i);
+        reverse(nums, changingPos + 1, n - 1);
     }
 }
