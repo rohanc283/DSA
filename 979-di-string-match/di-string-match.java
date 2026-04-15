@@ -1,17 +1,17 @@
 class Solution {
     public int[] diStringMatch(String s) {
         int n = s.length();
-        int[] ans = new int[n + 1];
         int l = 0, r = n;
-        int k = 0;
+        int[] res = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            if (s.charAt(i) == 'I') {
-                ans[k++] = l++;
+            char c = s.charAt(i);
+            if (c == 'I') {
+                res[i] = l++;
             } else {
-                ans[k++] = r--;
+                res[i] = r--;
             }
         }
-        ans[k++] = l++;
-        return ans;
+        res[n] = l;
+        return res;
     }
 }
