@@ -1,31 +1,27 @@
 class ProductOfNumbers {
 
     List<Integer> productArr;
-    int lastZeroIdx = -1;
 
     public ProductOfNumbers() {
         productArr = new ArrayList<>();
+        productArr.add(1);
     }
 
     public void add(int num) {
-        int n = productArr.size();
         if (num == 0) {
-            lastZeroIdx = n;
-            productArr.add(num);
-        } else if (n == 0 || productArr.get(n - 1) == 0) {
-            productArr.add(num);
+            productArr.clear();
+            productArr.add(1);
         } else {
+            int n = productArr.size();
             productArr.add(num * productArr.get(n - 1));
         }
     }
 
     public int getProduct(int k) {
         int n = productArr.size();
-        int idx = n - k - 1;
-        if (lastZeroIdx > idx)
+        if (k >= n)
             return 0;
-        if (idx == -1 || productArr.get(idx) == 0)
-            return productArr.get(n - 1);
+        int idx = n - k - 1;
         return productArr.get(n - 1) / productArr.get(idx);
     }
 }
