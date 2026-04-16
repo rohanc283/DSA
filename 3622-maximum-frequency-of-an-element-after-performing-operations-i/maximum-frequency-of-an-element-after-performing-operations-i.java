@@ -1,31 +1,27 @@
 class Solution {
     public int maxFrequency(int[] nums, int k, int numOperations) {
-        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
         int maxi = 0;
-
-        // find maximum
-        for (int num : nums)
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
             maxi = Math.max(maxi, num);
-
-        // storing freq
-        int[] freq = new int[maxi + 1];
-        for (int num : nums)
-            freq[num]++;
-
-        // cumulative sum
-        for (int i = 1; i <= maxi; i++) {
-            freq[i] += freq[i - 1];
         }
 
+        int[] diff = new int[maxi + 1];
+        for (int num : nums) {
+            int left = Math.max(0, num - k), right = Math.min(maxi, num + k);
+            diff[left]++;
+            if (right < maxi) {
+                diff[right + 1]--;
+            }
+        }
+        for (int i = 1; i <= maxi; i++) {
+            diff[i] += diff[i - 1];
+        }
         int maxFreq = 0;
         for (int target = 0; target <= maxi; target++) {
-            if (freq[target] == 0)
-                continue;
-            int totalFreq = freq[Math.min(target + k, maxi)] - (target - k > 0 ? freq[target - k - 1] : 0);
-            System.out.println(totalFreq);
-            int currNumFreq = freq[target] - (target > 0 ? freq[target - 1] : 0);
-            int reqOp = totalFreq - currNumFreq;
-            maxFreq = Math.max(maxFreq, currNumFreq + Math.min(reqOp, numOperations));
+            int f = map.getOrDefault(target, 0);
+            maxFreq = Math.max(maxFreq, f + Math.min(diff[target] - f, numOperations));
         }
         return maxFreq;
     }
