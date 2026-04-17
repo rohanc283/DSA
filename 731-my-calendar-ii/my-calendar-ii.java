@@ -1,28 +1,26 @@
 class MyCalendarTwo {
 
-    Map<Integer, Integer> events;
+    Map<Integer, Integer> map;
 
     public MyCalendarTwo() {
-        events = new TreeMap<>();
+        map = new TreeMap<>();
     }
 
     public boolean book(int startTime, int endTime) {
-        events.put(startTime, events.getOrDefault(startTime, 0) + 1);
-        events.put(endTime, events.getOrDefault(endTime, 0) - 1);
+        map.put(startTime, map.getOrDefault(startTime, 0) + 1);
+        map.put(endTime, map.getOrDefault(endTime, 0) - 1);
+        int intersection = 0;
         int curr = 0;
-        boolean isTrippleBooking = false;
-        for (Map.Entry<Integer, Integer> entry : events.entrySet()) {
-            curr += entry.getValue();
-            if (curr >= 3) {
-                isTrippleBooking = true;
-                break;
-            }
+        for (Integer timing : map.keySet()) {
+            curr += map.get(timing);
+            intersection = Math.max(intersection, curr);
         }
-        if (isTrippleBooking) {
-            events.put(startTime, events.get(startTime) - 1);
-            events.put(endTime, events.get(endTime) + 1);
+        if (intersection >= 3) {
+            map.put(startTime, map.get(startTime) - 1);
+            map.put(endTime, map.get(endTime) + 1);
+            return false;
         }
-        return !isTrippleBooking;
+        return true;
     }
 }
 
