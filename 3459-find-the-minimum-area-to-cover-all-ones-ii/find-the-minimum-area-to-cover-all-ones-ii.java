@@ -1,79 +1,67 @@
 class Solution {
-
-    public int area(int[][] grid, int r1, int r2, int c1, int c2) {
-        int sr = Integer.MAX_VALUE, er = -1;
-        int sc = Integer.MAX_VALUE, ec = -1;
-
+    public int minimumArea(int[][] grid, int r1, int c1, int r2, int c2) {
+        int sr = Integer.MAX_VALUE, sc = Integer.MAX_VALUE, er = -1, ec = -1;
         for (int i = r1; i < r2; i++) {
             for (int j = c1; j < c2; j++) {
                 if (grid[i][j] == 1) {
                     sr = Math.min(sr, i);
-                    er = Math.max(er, i);
                     sc = Math.min(sc, j);
+
+                    er = Math.max(er, i);
                     ec = Math.max(ec, j);
                 }
             }
         }
-
-        if (er == -1)
-            return 0;
-        return (er - sr + 1) * (ec - sc + 1);
+        return sr == Integer.MAX_VALUE && sc == Integer.MAX_VALUE ? 0 : (er - sr + 1) * (ec - sc + 1);
     }
 
     public int minimumSum(int[][] grid) {
         int m = grid.length, n = grid[0].length;
-        int res = Integer.MAX_VALUE;
+        int res = m * n;
+        for (int rowSplit = 1; rowSplit < m; rowSplit++) {
+            for (int colSplit = 1; colSplit < n; colSplit++) {
+                int top = minimumArea(grid, 0, 0, rowSplit, n);
+                int left = minimumArea(grid, rowSplit, 0, m, colSplit);
+                int right = minimumArea(grid, rowSplit, colSplit, m, n);
+                res = Math.min(res, top + left + right);
 
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                int a = area(grid, 0, i, 0, n);
-                int b = area(grid, i, m, 0, j);
-                int c = area(grid, i, m, j, n);
-                res = Math.min(res, a + b + c);
+                left = minimumArea(grid, 0, 0, rowSplit, colSplit);
+                right = minimumArea(grid, 0, colSplit, rowSplit, n);
+                int bottom = minimumArea(grid, rowSplit, 0, m, n);
+                res = Math.min(res, left + right + bottom);
+            }
+        }
+        for (int colSplit = 1; colSplit < n; colSplit++) {
+            for (int rowSplit = 1; rowSplit < m; rowSplit++) {
+                int top = minimumArea(grid, 0, 0, rowSplit, colSplit);
+                int bottom = minimumArea(grid, rowSplit, 0, m, colSplit);
+                int right = minimumArea(grid, 0, colSplit, m, n);
+                res = Math.min(res, top + bottom + right);
 
-                int d = area(grid, 0, i, 0, j);
-                int e = area(grid, 0, i, j, n);
-                int f = area(grid, i, m, 0, n);
-                res = Math.min(res, d + e + f);
+                int left = minimumArea(grid, 0, 0, m, colSplit);
+                top = minimumArea(grid, 0, colSplit, rowSplit, n);
+                bottom = minimumArea(grid, rowSplit, colSplit, m, n);
+                res = Math.min(res, left + top + bottom);
             }
         }
 
         for (int i = 1; i < m; i++) {
             for (int j = i + 1; j < m; j++) {
-                int a = area(grid, 0, i, 0, n);
-                int b = area(grid, i, j, 0, n);
-                int c = area(grid, j, m, 0, n);
-                res = Math.min(res, a + b + c);
+                int top = minimumArea(grid, 0, 0, i, n);
+                int middle = minimumArea(grid, i, 0, j, n);
+                int bottom = minimumArea(grid, j, 0, m, n);
+                res = Math.min(res, top + middle + bottom);
             }
         }
 
         for (int i = 1; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                int a = area(grid, 0, m, 0, i);
-                int b = area(grid, 0, m, i, j);
-                int c = area(grid, 0, m, j, n);
-                res = Math.min(res, a + b + c);
+                int left = minimumArea(grid, 0, 0, m, i);
+                int middle = minimumArea(grid, 0, i, m, j);
+                int right = minimumArea(grid, 0, j, m, n);
+                res = Math.min(res, left + middle + right);
             }
         }
-
-        for (int j = 1; j < n; j++) {
-            for (int i = 1; i < m; i++) {
-                int a = area(grid, 0, m, 0, j);
-                int b = area(grid, 0, i, j, n);
-                int c = area(grid, i, m, j, n);
-                res = Math.min(res, a + b + c);
-            }
-        }
-
-        for (int j = 1; j < n; j++) {
-            for (int i = 1; i < m; i++) {
-                int a = area(grid, 0, i, 0, j);
-                int b = area(grid, i, m, 0, j);
-                int c = area(grid, 0, m, j, n);
-                res = Math.min(res, a + b + c);
-            }
-        }
-
         return res;
     }
 }
