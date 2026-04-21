@@ -1,65 +1,76 @@
 class Solution {
-
-    private List<Integer> extract(int[][] grid, int sr, int er, int sc, int ec) {
-        List<Integer> list = new ArrayList<>();
-
-        for (int i = sr; i < er; i++)
-            list.add(grid[i][sc]);
-        for (int j = sc; j < ec; j++)
-            list.add(grid[er][j]);
-        for (int i = er; i > sr; i--)
-            list.add(grid[i][ec]);
-        for (int j = ec; j > sc; j--)
-            list.add(grid[sr][j]);
-
-        return list;
+    private void rotateByK(List<Integer> temp, int k) {
+        int n = temp.size();
+        k = k % n;
+        Collections.reverse(temp.subList(0, n - k));
+        Collections.reverse(temp.subList(n - k, n));
+        Collections.reverse(temp.subList(0, n));
     }
 
-    private void reverse(List<Integer> list, int l, int r) {
-        while (l < r) {
-            int tmp = list.get(l);
-            list.set(l, list.get(r));
-            list.set(r, tmp);
-            l++;
-            r--;
+    private void populateNums(int[][] grid, List<List<Integer>> nums, int m, int n) {
+        int sr = 0, sc = 0, er = m - 1, ec = n - 1;
+        while (sr < er && sc < ec) {
+            List<Integer> curr = new ArrayList<>();
+            for (int i = sr; i <= er; i++) {
+                curr.add(grid[i][sc]);
+            }
+            sc++;
+            for (int i = sc; i <= ec; i++) {
+                curr.add(grid[er][i]);
+            }
+            er--;
+            for (int i = er; i >= sr; i--) {
+                curr.add(grid[i][ec]);
+            }
+            ec--;
+            for (int i = ec; i >= sc; i--) {
+                curr.add(grid[sr][i]);
+            }
+            sr++;
+            nums.add(curr);
         }
     }
 
-    private void rotateRight(List<Integer> list, int k) {
-        int n = list.size();
-        k %= n;
-        reverse(list, 0, n - k - 1);
-        reverse(list, n - k, n - 1);
-        reverse(list, 0, n - 1);
-    }
-
-    private void fillBack(int[][] grid, int sr, int er, int sc, int ec, List<Integer> list) {
-        int idx = 0;
-
-        for (int i = sr; i < er; i++)
-            grid[i][sc] = list.get(idx++);
-        for (int j = sc; j < ec; j++)
-            grid[er][j] = list.get(idx++);
-        for (int i = er; i > sr; i--)
-            grid[i][ec] = list.get(idx++);
-        for (int j = ec; j > sc; j--)
-            grid[sr][j] = list.get(idx++);
+    private void populateNumsBack(int[][] res, List<List<Integer>> nums, int m, int n) {
+        int sr = 0, sc = 0, er = m - 1, ec = n - 1;
+        int rIdx = 0;
+        while (sr < er && sc < ec) {
+            int cIdx = 0;
+            for (int i = sr; i <= er; i++) {
+                res[i][sc] = nums.get(rIdx).get(cIdx++);
+            }
+            sc++;
+            for (int i = sc; i <= ec; i++) {
+                res[er][i] = nums.get(rIdx).get(cIdx++);
+            }
+            er--;
+            for (int i = er; i >= sr; i--) {
+                res[i][ec] = nums.get(rIdx).get(cIdx++);
+            }
+            ec--;
+            for (int i = ec; i >= sc; i--) {
+                res[sr][i] = nums.get(rIdx).get(cIdx++);
+            }
+            sr++;
+            rIdx++;
+        }
     }
 
     public int[][] rotateGrid(int[][] grid, int k) {
         int m = grid.length, n = grid[0].length;
-        int sr = 0, er = m - 1, sc = 0, ec = n - 1;
-
-        while (sr < er && sc < ec) {
-            List<Integer> layer = extract(grid, sr, er, sc, ec);
-            rotateRight(layer, k);
-            fillBack(grid, sr, er, sc, ec, layer);
-
-            sr++;
-            er--;
-            sc++;
-            ec--;
+        List<List<Integer>> nums = new ArrayList<>();
+        populateNums(grid, nums, m, n);
+        for (List<Integer> curr : nums) {
+            rotateByK(curr, k);
         }
-        return grid;
+        for (List<Integer> curr : nums) {
+            for (Integer num : curr) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+        int[][] res = new int[m][n];
+        populateNumsBack(res, nums, m, n);
+        return res;
     }
 }
