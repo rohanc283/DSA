@@ -55,20 +55,19 @@ class Solution {
                     oCount++;
             }
         }
-        System.out.println(xCount + " " + oCount);
         if (oCount > xCount)
             return false;
         if (Math.abs(xCount - oCount) >= 2)
             return false;
         boolean xWon = won(board, 'X');
         boolean oWon = won(board, 'O');
-        if(xWon && oWon) return false;
+        if (xWon && oWon)
+            return false;
         else if (xWon) {
             return xCount - oCount == 1;
         } else if (oWon) {
             return xCount == oCount;
         } else {
-            System.out.println(xCount + " " + oCount);
             return xCount >= oCount;
         }
     }
