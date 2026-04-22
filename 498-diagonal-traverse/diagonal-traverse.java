@@ -7,7 +7,7 @@ class Solution {
         int resIdx = 0;
         while (resIdx < t) {
             int i = r, j = c;
-            while (i >= 0 && j < n && resIdx < t) {
+            while (i >= 0 && j < n) {
                 res[resIdx++] = mat[i][j];
                 i--;
                 j++;
@@ -18,7 +18,7 @@ class Solution {
                 i++;
             }
 
-            while (i < m && j >= 0 && resIdx < t) {
+            while (i < m && j >= 0) {
                 res[resIdx++] = mat[i][j];
                 i++;
                 j--;
