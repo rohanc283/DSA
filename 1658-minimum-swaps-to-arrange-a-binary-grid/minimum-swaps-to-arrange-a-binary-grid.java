@@ -6,35 +6,33 @@ class Solution {
     }
 
     public int minSwaps(int[][] grid) {
-        int n = grid.length;
-        int[] endZeros = new int[n];
+        int m = grid.length, n = grid[0].length;
+        int[] endZeros = new int[m];
         for (int i = 0; i < n; i++) {
             int zeros = 0;
             for (int j = n - 1; j >= 0; j--) {
-                if (grid[i][j] == 1)
+                if (grid[i][j] == 1) {
                     break;
-                else {
-                    zeros++;
                 }
+                zeros++;
             }
             endZeros[i] = zeros;
         }
-
-        int res = 0;
-        for (int i = 0; i < n; i++) {
-            int need = n - i - 1;
-            int j = i;
-            while (j < n && endZeros[j] < need)
+        int swaps = 0;
+        int i = 0;
+        while (i < m) {
+            int need = n - i - 1, j = i;
+            while (j < m && endZeros[j] < need) {
                 j++;
+            }
             if (j >= n)
                 return -1;
-
-            res += (j - i);
+            swaps += (j - i);
             while (j > i) {
-                swap(endZeros, j, j - 1);
-                j--;
+                swap(endZeros, j - 1, j--);
             }
+            i++;
         }
-        return res;
+        return swaps;
     }
 }
