@@ -52,7 +52,6 @@ class Solution {
             for (int i = 0; i < curr.size(); i++) {
                 int height = curr.get(i)[1];
                 int base = i + 1;
-                ;
                 maxArea = Math.max(maxArea, height * base);
             }
             prev = curr;
