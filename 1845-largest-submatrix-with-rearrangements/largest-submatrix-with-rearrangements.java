@@ -25,7 +25,43 @@ class Solution {
         return maxArea;
     }
 
+    private int sol2(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int maxArea = 0;
+
+        List<int[]> prev = new ArrayList<>();
+        for (int r = 0; r < m; r++) {
+            List<int[]> curr = new ArrayList<>();
+            boolean[] seen = new boolean[n];
+            for (int[] p : prev) {
+                int col = p[0];
+                int height = p[1];
+                if (matrix[r][col] == 1) {
+                    curr.add(new int[] { col, height + 1 });
+                    seen[col] = true;
+                }
+            }
+
+            for (int c = 0; c < n; c++) {
+                if (matrix[r][c] == 1 && seen[c] == false) {
+                    curr.add(new int[] { c, 1 });
+                }
+            }
+
+            for (int i = 0; i < curr.size(); i++) {
+                int height = curr.get(i)[1];
+                int base = i + 1;
+                ;
+                maxArea = Math.max(maxArea, height * base);
+            }
+            prev = curr;
+        }
+
+        return maxArea;
+    }
+
     public int largestSubmatrix(int[][] matrix) {
-        return sol1(matrix);
+        return sol2(matrix);
     }
 }
