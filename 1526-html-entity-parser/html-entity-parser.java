@@ -1,34 +1,46 @@
 class Solution {
     public String entityParser(String text) {
         Map<String, String> map = Map.of(
-                "&quot;", "\"",
-                "&apos;", "'",
-                "&amp;", "&",
                 "&gt;", ">",
                 "&lt;", "<",
+                "&amp;", "&",
+                "&quot;", "\"",
+                "&apos;", "'",
                 "&frasl;", "/");
 
         StringBuilder res = new StringBuilder();
-
-        for (int i = 0; i < text.length(); i++) {
-            boolean matched = false;
-
-            if (text.charAt(i) == '&') {
-                for (String entity : map.keySet()) {
-                    if (text.startsWith(entity, i)) {
-                        res.append(map.get(entity));
-                        i += entity.length() - 1;
-                        matched = true;
-                        break;
-                    }
+        int n = text.length();
+        for (int i = 0; i < n; i++) {
+            char c = text.charAt(i);
+            if (c == '&') {
+                String key = text.substring(i, Math.min(n, i + 4));
+                String key2 = text.substring(i, Math.min(n, i + 5));
+                String key3 = text.substring(i, Math.min(n, i + 6));
+                String key4 = text.substring(i, Math.min(n, i + 7));
+                if (map.containsKey(key)) {
+                    res.append(map.get(key));
+                    i += 3;
+                    continue;
+                } else if (map.containsKey(key2)) {
+                    res.append(map.get(key2));
+                    i += 4;
+                    continue;
+                } else if (map.containsKey(key3)) {
+                    res.append(map.get(key3));
+                    i += 5;
+                    continue;
+                } else if (map.containsKey(key4)) {
+                    res.append(map.get(key4));
+                    i += 6;
+                    continue;
+                } else {
+                    res.append(c);
                 }
-            }
-
-            if (!matched) {
-                res.append(text.charAt(i));
+            } else {
+                res.append(c);
             }
         }
-
         return res.toString();
+
     }
 }
