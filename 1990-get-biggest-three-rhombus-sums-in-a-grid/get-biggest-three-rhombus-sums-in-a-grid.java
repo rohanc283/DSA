@@ -1,78 +1,52 @@
 class Solution {
-    public int[] getBiggestThree(int[][] grid) {
-
-        int m = grid.length, n = grid[0].length;
-
-        int[][] d1 = new int[m][n]; 
-        int[][] d2 = new int[m][n]; 
-
+    private int[][] getLeftToRightDiagSum(int[][] grid, int m, int n) {
+        int[][] sum = new int[m][n];
         for (int r = 0; r < m; r++) {
             for (int c = 0; c < n; c++) {
-
-                d1[r][c] = grid[r][c];
-                d2[r][c] = grid[r][c];
-
-                if (r > 0 && c > 0)
-                    d1[r][c] += d1[r - 1][c - 1];
-
-                if (r > 0 && c < n - 1)
-                    d2[r][c] += d2[r - 1][c + 1];
+                sum[r][c] = grid[r][c] + (r > 0 && c > 0 ? sum[r - 1][c - 1] : 0);
             }
         }
+        return sum;
+    }
+
+    private int[][] getRightToLeftDiagSum(int[][] grid, int m, int n) {
+        int[][] sum = new int[m][n];
+        for (int r = 0; r < m; r++) {
+            for (int c = n - 1; c >= 0; c--) {
+                sum[r][c] = grid[r][c] + (r > 0 && c < n - 1 ? sum[r - 1][c + 1] : 0);
+            }
+        }
+        return sum;
+    }
+
+    public int[] getBiggestThree(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] leftToRightDiagSum = getLeftToRightDiagSum(grid, m, n);
+        int[][] rightToLeftDiagSum = getRightToLeftDiagSum(grid, m, n);
 
         TreeSet<Integer> set = new TreeSet<>();
-
-        for (int r = 0; r < m; r++) {
-            for (int c = 0; c < n; c++) {
-
-                set.add(grid[r][c]);
-                if (set.size() > 3)
-                    set.pollFirst();
-
-                for (int side = 1; r - side >= 0 && r + side < m && c - side >= 0 && c + side < n; side++) {
-
-                    int top_r = r - side, top_c = c;
-                    int right_r = r, right_c = c + side;
-                    int bottom_r = r + side, bottom_c = c;
-                    int left_r = r, left_c = c - side;
-
-                    int sum = 0;
-
-                    // top -> right
-                    sum += d1[right_r][right_c] -
-                            (top_r - 1 >= 0 && top_c - 1 >= 0 ? d1[top_r - 1][top_c - 1] : 0);
-
-                    // right -> bottom
-                    sum += d2[bottom_r][bottom_c] -
-                            (right_r - 1 >= 0 && right_c + 1 < n ? d2[right_r - 1][right_c + 1] : 0);
-
-                    // bottom -> left
-                    sum += d1[bottom_r][bottom_c] -
-                            (left_r - 1 >= 0 && left_c - 1 >= 0 ? d1[left_r - 1][left_c - 1] : 0);
-
-                    // left -> top
-                    sum += d2[left_r][left_c] -
-                            (top_r - 1 >= 0 && top_c + 1 < n ? d2[top_r - 1][top_c + 1] : 0);
-
-                    // subtract duplicated corners
-                    sum -= grid[top_r][top_c];
-                    sum -= grid[right_r][right_c];
-                    sum -= grid[bottom_r][bottom_c];
-                    sum -= grid[left_r][left_c];
-
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                set.add(grid[i][j]);
+                for (int size = 1; i + (2 * size) < m && j - size >= 0 && j + size < n; size++) {
+                    int a = leftToRightDiagSum[i + size][j + size]
+                            - (i > 0 && j > 0 ? leftToRightDiagSum[i - 1][j - 1] : 0);
+                    int b = rightToLeftDiagSum[i + (2 * size)][j] - rightToLeftDiagSum[i + size][j + size];
+                    int c = leftToRightDiagSum[i + (2 * size) - 1][j - 1]
+                            - (j - size > 0 ? leftToRightDiagSum[i + size - 1][j - size - 1] : 0);
+                    int d = rightToLeftDiagSum[i + size - 1][j - size + 1] - rightToLeftDiagSum[i][j];
+                    int sum = a + b + c + d;
                     set.add(sum);
-                    if (set.size() > 3)
-                        set.pollFirst();
                 }
             }
         }
-
-        int[] res = new int[set.size()];
-        int i = set.size() - 1;
-
-        for (int val : set)
-            res[i--] = val;
-
-        return res;
+        List<Integer> res = new ArrayList<>();
+        while (!set.isEmpty()) {
+            res.add(set.last());
+            set.remove(set.last());
+            if (res.size() == 3)
+                break;
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
     }
 }
