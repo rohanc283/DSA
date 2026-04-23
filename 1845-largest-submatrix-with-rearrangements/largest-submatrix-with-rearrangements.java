@@ -1,31 +1,22 @@
 class Solution {
-    private int sol1(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
-        int maxArea = 0;
-
-        for (int r = 0; r < m; r++) {
-
-            for (int c = 0; c < n; c++) {
-                if (matrix[r][c] == 1 && r > 0) {
-                    matrix[r][c] += matrix[r - 1][c];
-                }
+    public int largestSubmatrix(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        int[] sum = new int[n];
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                sum[j] = matrix[i][j] == 0 ? 0 : sum[j] + matrix[i][j];
             }
-
-            int[] temp = matrix[r].clone();
+            int[] temp = Arrays.copyOf(sum, n);
             Arrays.sort(temp);
-
-            for (int i = n - 1; i >= 0; i--) {
-                int height = temp[i];
-                int width = n - i;
-                maxArea = Math.max(maxArea, height * width);
+            int mini = Integer.MAX_VALUE;
+            for (int j = n - 1; j >= 0; j--) {
+                if (temp[j] == 0)
+                    break;
+                mini = Math.min(mini, temp[j]);
+                res = Math.max(res, mini * ((n - j - 1) + 1));
             }
         }
-
-        return maxArea;
-    }
-
-    public int largestSubmatrix(int[][] matrix) {
-        return sol1(matrix);
+        return res;
     }
 }
