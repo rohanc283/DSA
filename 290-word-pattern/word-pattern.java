@@ -1,23 +1,19 @@
 class Solution {
     public boolean wordPattern(String pattern, String s) {
-        String[] words = s.split(" ");
-        if (pattern.length() != words.length)
+        String[] strList = s.split(" ");
+        if (pattern.length() != strList.length)
             return false;
-
-        Map<Character, String> p2w = new HashMap<>();
-        Map<String, Character> w2p = new HashMap<>();
-
-        for (int i = 0; i < pattern.length(); i++) {
-            char p = pattern.charAt(i);
-            String w = words[i];
-
-            if (p2w.containsKey(p) && !p2w.get(p).equals(w))
+        Map<Character, String> patternToStrMapping = new HashMap<>();
+        Map<String, Character> strToPatternMapping = new HashMap<>();
+        for (int i = 0; i < strList.length; i++) {
+            char c = pattern.charAt(i);
+            String str = strList[i];
+            if (patternToStrMapping.containsKey(c) && !patternToStrMapping.get(c).equals(str))
                 return false;
-            if (w2p.containsKey(w) && w2p.get(w) != p)
+            if (strToPatternMapping.containsKey(str) && strToPatternMapping.get(str) != c)
                 return false;
-
-            p2w.put(p, w);
-            w2p.put(w, p);
+            patternToStrMapping.put(c, str);
+            strToPatternMapping.put(str, c);
         }
         return true;
     }
