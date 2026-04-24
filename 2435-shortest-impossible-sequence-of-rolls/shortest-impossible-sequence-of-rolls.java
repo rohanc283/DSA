@@ -1,14 +1,14 @@
 class Solution {
     public int shortestSequence(int[] rolls, int k) {
         Set<Integer> set = new HashSet<>();
-        int ans = 0;
+        int res = 0;
         for (int roll : rolls) {
             set.add(roll);
             if (set.size() == k) {
+                res++;
                 set.clear();
-                ans++;
             }
         }
-        return ans + 1;
+        return res + 1;
     }
 }
