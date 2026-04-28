@@ -7,10 +7,10 @@ class Solution {
             int sum = 0;
             for (int i = 0; i < w.size() - 1; i++) {
                 sum += w.get(i);
-                map.put(sum, map.getOrDefault(sum, 0) + 1);
-                maxi = Math.max(maxi, map.get(sum));
+                int count = map.getOrDefault(sum, 0) + 1;
+                map.put(sum, count);
+                maxi = Math.max(maxi, count);
             }
-            System.out.println(maxi);
         }
         return n - maxi;
     }
