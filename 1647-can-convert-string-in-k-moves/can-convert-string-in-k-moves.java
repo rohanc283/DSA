@@ -11,9 +11,6 @@ class Solution {
                 freq[i]++;
             }
         }
-        for (int i = 0; i < 25; i++) {
-            System.out.print(freq[i] + " ");
-        }
         int n = s.length();
         for (int i = 0; i < s.length(); i++) {
             char c1 = s.charAt(i), c2 = t.charAt(i);
