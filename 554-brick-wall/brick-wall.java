@@ -1,21 +1,17 @@
 class Solution {
     public int leastBricks(List<List<Integer>> wall) {
-
         Map<Integer, Integer> map = new HashMap<>();
-
-        for (List<Integer> row : wall) {
+        int n = wall.size();
+        int maxi = 0;
+        for (List<Integer> w : wall) {
             int sum = 0;
-            for (int i = 0; i < row.size() - 1; i++) {
-                sum += row.get(i);
+            for (int i = 0; i < w.size() - 1; i++) {
+                sum += w.get(i);
                 map.put(sum, map.getOrDefault(sum, 0) + 1);
+                maxi = Math.max(maxi, map.get(sum));
             }
+            System.out.println(maxi);
         }
-
-        int maxEdges = 0;
-        for (int val : map.values()) {
-            maxEdges = Math.max(maxEdges, val);
-        }
-
-        return wall.size() - maxEdges;
+        return n - maxi;
     }
 }
