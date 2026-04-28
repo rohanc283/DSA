@@ -1,18 +1,16 @@
 class Solution {
     public int partitionString(String s) {
+        int res = 0;
         int mask = 0;
-        int partitions = 1;
-
         for (char c : s.toCharArray()) {
-            int bit = 1 << (c - 'a');
-
-            if ((mask & bit) != 0) {
-                partitions++;
+            int idx = c - 'a';
+            if (((mask >> idx) & 1) >= 1) {
                 mask = 0;
+                res++;
             }
-
+            int bit = 1 << idx;
             mask |= bit;
         }
-        return partitions;
+        return res + 1;
     }
 }
