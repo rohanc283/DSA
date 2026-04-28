@@ -2,23 +2,27 @@ class Solution {
     public boolean canConvertString(String s, String t, int k) {
         if (s.length() != t.length())
             return false;
-
-        int[] freq = new int[26];
-
+        int[] freq = new int[27];
+        for (int i = 1; i < 26; i++) {
+            int div = k / 26;
+            int rem = k % 26;
+            freq[i] += div;
+            if (i <= rem) {
+                freq[i]++;
+            }
+        }
+        for (int i = 0; i < 25; i++) {
+            System.out.print(freq[i] + " ");
+        }
+        int n = s.length();
         for (int i = 0; i < s.length(); i++) {
-            char a = s.charAt(i);
-            char b = t.charAt(i);
-
-            if (a == b)
-                continue;
-
-            int diff = (b - a + 26) % 26;
-
-            int moveTime = diff + 26 * freq[diff];
-            if (moveTime > k)
-                return false;
-
-            freq[diff]++;
+            char c1 = s.charAt(i), c2 = t.charAt(i);
+            if (c1 != c2) {
+                int diff = (c2 - c1 + 26) % 26;
+                if (freq[diff] <= 0)
+                    return false;
+                freq[diff]--;
+            }
         }
         return true;
     }
