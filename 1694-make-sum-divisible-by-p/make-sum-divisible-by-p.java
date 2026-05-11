@@ -13,7 +13,6 @@ class Solution {
         modIndex.put(0, -1);
         int res = n;
         int curr = 0;
-
         for (int i = 0; i < n; i++) {
             curr = (curr + nums[i]) % p;
             int need = (curr - target + p) % p;
