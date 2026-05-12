@@ -1,15 +1,14 @@
 class Solution {
     public long beautifulSubarrays(int[] nums) {
         Map<Long, Long> map = new HashMap<>();
-        long result = 0L;
-        long xor = 0L;
-        map.put(xor, 1L);
+        map.put(0L, 1L);
+        long xor = 0, res = 0;
         for (int num : nums) {
-            xor ^= (long) num;
+            xor ^= num;
             long val = map.getOrDefault(xor, 0L);
-            result += val;
-            map.put(xor, val + 1L);
+            res += val;
+            map.put(xor, val + 1);
         }
-        return result;
+        return res;
     }
 }
