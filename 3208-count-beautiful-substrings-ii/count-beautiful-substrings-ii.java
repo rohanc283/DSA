@@ -1,27 +1,28 @@
 class Solution {
     public long beautifulSubstrings(String s, int k) {
-        long result = 0L;
-        long vowel = 0L, consonant = 0L;
         Map<Long, Map<Long, Long>> map = new HashMap<>();
-        map.computeIfAbsent(vowel - consonant, m -> new HashMap<>()).put(0L, 1L);
+        map.computeIfAbsent(0L, m -> new HashMap<>()).put(0L, 1L);
+        long vowelCount = 0, consonentCount = 0;
+        long res = 0;
         for (char c : s.toCharArray()) {
-            if ("aeiou".indexOf(c) != -1)
-                vowel++;
-            else
-                consonant++;
-
-            long pSum = vowel - consonant;
-            if (map.containsKey(pSum)) {
-                Map<Long, Long> currMap = map.get(pSum);
-                for (Long key : currMap.keySet()) {
-                    if ((((vowel % k) - key) * ((vowel % k) - key)) % k == 0) {
-                        result += currMap.get(key);
-                    }
-                }
+            if ("aeiou".indexOf(c) != -1) {
+                vowelCount++;
+            } else {
+                consonentCount++;
             }
-            map.computeIfAbsent(pSum, m -> new HashMap<>()).put(vowel % k,
-                    map.get(pSum).getOrDefault(vowel % k, 0L) + 1L);
+            long key = vowelCount - consonentCount;
+            if (map.containsKey(key)) {
+                Map<Long, Long> keyMap = map.get(key);
+                for (Long currKey : keyMap.keySet()) {
+                    long currVowel = (vowelCount % k) - currKey;
+                    if ((currVowel * currVowel) % k == 0)
+                        res += keyMap.get(currKey);
+                }
+                map.get(key).put((vowelCount % k), map.get(key).getOrDefault((vowelCount % k), 0L) + 1L);
+            } else {
+                map.computeIfAbsent(key, m -> new HashMap<>()).put((vowelCount % k), 1L);
+            }
         }
-        return result;
+        return res;
     }
 }
